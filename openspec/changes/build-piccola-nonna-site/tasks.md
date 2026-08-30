@@ -34,7 +34,8 @@
 
 - [ ] 5.1 Generate location-specific titles, descriptions, canonical URLs, social metadata, and supplied share images; verify the root and `/cafe` expose distinct metadata in the built output
 - [ ] 5.2 Add location-specific restaurant structured data using available name, address, hours, and public URL values; verify it is present in each route's generated HTML
-- [ ] 5.3 Add accessible semantics, alt text, focus states, and keyboard behavior for navigation, location selection, and Instagram controls; verify key flows work with keyboard-only navigation
-- [ ] 5.4 Implement Figma-specified motion with CSS-first transitions and reduced-motion handling; verify decorative motion is suppressed while navigation and content remain accessible with reduced motion enabled
-- [ ] 5.5 Optimize supplied images and client-side assets; verify the production build succeeds and route content remains readable before client-side JavaScript loads
-- [ ] 5.6 Run the documented formatting, linting, type, build, metadata, responsive, and Netlify-preview checks; verify outstanding issues are resolved before production deployment
+- [ ] 5.3 Generate the sitemap and `public/robots.txt` from the final public site URL; verify the sitemap lists `/` and `/cafe` and robots.txt permits public crawling and references the sitemap
+- [ ] 5.4 Add accessible semantics, alt text, focus states, and keyboard behavior for navigation, location selection, and Instagram controls; verify key flows work with keyboard-only navigation
+- [ ] 5.5 Implement Figma-specified motion with CSS-first transitions and reduced-motion handling; verify decorative motion is suppressed while navigation and content remain accessible with reduced motion enabled
+- [ ] 5.6 Optimize supplied images and client-side assets; verify the production build succeeds and route content remains readable before client-side JavaScript loads
+- [ ] 5.7 Run the documented formatting, linting, type, build, metadata, responsive, and Netlify-preview checks; verify outstanding issues are resolved before production deployment

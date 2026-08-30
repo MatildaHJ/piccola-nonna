@@ -15,6 +15,7 @@ This repository contains only OpenSpec configuration. See `proposal.md` for the 
 
 - Online reservations, ordering, payments, accounts, or a runtime backend.
 - A headless CMS in the initial release; content editing will be revisited in v2.
+- A PWA web-app manifest, installable-app behavior, and offline support.
 - Defining the final visual design, copy, photography, or brand assets before they are supplied.
 - Artificial animation gates that delay access to restaurant information.
 
@@ -68,7 +69,7 @@ Deploy Astro's static `dist` output to Netlify and connect the repository to Net
 
 ### SEO and performance baseline
 
-Generate route-level titles, descriptions, canonical URLs, social metadata, and restaurant structured data from location content. Optimize supplied images, reserve their layout space, and ship only required assets and client JavaScript. The root and `/cafe` must have meaningful HTML independently of script execution.
+Generate route-level titles, descriptions, canonical URLs, social metadata, restaurant structured data, a sitemap, and crawler directives from location content. Add a minimal `robots.txt` that permits public crawling and references the sitemap. Optimize supplied images, reserve their layout space, and ship only required assets and client JavaScript. The root and `/cafe` must have meaningful HTML independently of script execution.
 
 ## Risks / Trade-offs
 

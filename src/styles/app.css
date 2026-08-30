@@ -4,11 +4,14 @@
 @theme inline {
   --color-canvas: var(--canvas);
   --color-surface: var(--surface);
+  --color-dark: var(--dark);
   --color-ink: var(--ink);
+  --color-sand: var(--sand);
   --color-muted: var(--muted);
   --color-accent: var(--accent);
   --color-accent-strong: var(--accent-strong);
   --color-line: var(--line);
+  --color-on-dark: var(--on-dark);
   --font-display: var(--display-font);
   --font-sans: var(--body-font);
 }

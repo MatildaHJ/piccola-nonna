@@ -28,3 +28,14 @@ The Pizza location at the root route and the Cafe location at `/cafe` SHALL be i
 #### Scenario: Crawler retrieves Cafe directly
 - **WHEN** a crawler requests `/cafe` directly
 - **THEN** it receives the Cafe's title, operational information, and location content without requiring a prior visit to the root route
+
+### Requirement: Crawler discovery files
+The site SHALL publish a sitemap listing its public location routes and a `robots.txt` file that permits crawling of public content and references that sitemap. The site SHALL NOT include a PWA web-app manifest in v1.
+
+#### Scenario: Crawler requests robots.txt
+- **WHEN** a crawler requests `/robots.txt`
+- **THEN** it receives directives that permit public crawling and identify the sitemap URL
+
+#### Scenario: Crawler requests the sitemap
+- **WHEN** a crawler requests the published sitemap
+- **THEN** it receives entries for the root Pizza route and the `/cafe` route
