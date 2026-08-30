@@ -44,6 +44,10 @@ Use SCSS for the global reset/base layer, CSS custom-property design tokens, typ
 
 Alternative considered: Tailwind only. SCSS is retained because the project explicitly needs a structured global base, variables, and mixins.
 
+### Design and asset readiness
+
+The SCSS and Tailwind foundation may use clearly identified placeholder colours and system-font fallbacks while the project is being set up. Construction of the visual page composition begins only after the Figma design and production assets have been supplied: font files and licensing/use instructions, favicon, Pizza and Cafe logos, photography, social-sharing images, and final operational/menu copy. This prevents placeholder design decisions from becoming accidental production brand choices.
+
 ### Shared components and minimal client interactivity
 
 Model shared header, footer, Instagram section, layout, and location-selection behavior as reusable Astro components. Render menus and operational information statically. Add client-side JavaScript only to interactions that require it, such as a final Instagram carousel implementation. Animation should prefer CSS and must honor reduced-motion preferences.
@@ -60,7 +64,7 @@ Alternative considered: static curated posts. It was rejected for v1 because bot
 
 ### Netlify delivery pipeline
 
-Use the Astro Netlify adapter and connect the repository to Netlify. The production branch produces the public deployment and pull requests/branches use Netlify previews. Production configuration stays in version control where possible; secrets, if later needed, are configured in Netlify and documented without recording their values.
+Deploy Astro's static `dist` output to Netlify and connect the repository to Netlify. The production branch produces the public deployment and pull requests/branches use Netlify previews. The live Instagram adapter will be implemented as an independent Netlify Function; it does not require Astro server-side rendering. Production configuration stays in version control where possible; secrets, if later needed, are configured in Netlify and documented without recording their values.
 
 ### SEO and performance baseline
 
@@ -74,6 +78,7 @@ Generate route-level titles, descriptions, canonical URLs, social metadata, and 
 - [Instagram API access, token expiry, privacy, and provider limits can interrupt the feed] -> Use the official/approved provider path, keep credentials only in Netlify environment variables, cache responses, and render a non-blocking fallback state.
 - [Large photography can harm mobile performance] -> Optimize assets, use responsive image handling, and test the production build on mobile-sized viewports and slower networks.
 - [Figma output may not map directly to accessible interactions] -> Treat supplied Figma as the visual source while preserving semantic HTML, keyboard operation, contrast, and reduced-motion behavior.
+- [Missing production assets can stall or distort visual implementation] -> Complete the design-and-asset readiness task before constructing location-page visuals.
 
 ## Migration Plan
 

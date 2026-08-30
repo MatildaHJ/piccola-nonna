@@ -1,0 +1,22 @@
+// Temporary tokens. Replace these values when the approved Figma design is ready.
+:root {
+  --canvas: #f6f2ea;
+  --surface: #fffdf9;
+  --ink: #1f1d1a;
+  --muted: #706b63;
+  --accent: #b83d2d;
+  --accent-strong: #902d21;
+  --line: #d8d0c4;
+
+  --display-font:
+    'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
+  --body-font: Inter, ui-sans-serif, system-ui, sans-serif;
+
+  --page-width: 75rem;
+  --radius-small: 0.25rem;
+  --radius-medium: 0.75rem;
+  --soft-shadow: 0 0.75rem 2rem rgb(31 29 26 / 8%);
+  --standard-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --fast-duration: 160ms;
+  --base-duration: 260ms;
+}

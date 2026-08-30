@@ -1,15 +1,15 @@
 ## 1. Project foundation and repository hygiene
 
-- [ ] 1.1 Scaffold the Astro TypeScript project and verify the documented production build completes successfully
-- [ ] 1.2 Add Tailwind CSS, SCSS support, and the Netlify adapter; verify the local development server and production build both run
-- [ ] 1.3 Create `.gitignore` for Node dependencies, build output, local environment files, and platform clutter; verify required source and configuration files remain tracked
-- [ ] 1.4 Create `README.md` with project purpose, prerequisites, install/development/build commands, project structure, Netlify deployment workflow, environment-variable guidance, and v1 content-maintenance notes; verify a new maintainer can follow its setup steps
-- [ ] 1.5 Configure formatting, linting, and type-check/build scripts; verify all checks pass on the initial project
+- [x] 1.1 Scaffold the Astro TypeScript project and verify the documented production build completes successfully
+- [x] 1.2 Add Tailwind CSS and SCSS support while preserving Astro's static build; verify the local development server and production build both run
+- [x] 1.3 Create `.gitignore` for Node dependencies, build output, local environment files, and platform clutter; verify required source and configuration files remain tracked
+- [x] 1.4 Create `README.md` with project purpose, prerequisites, install/development/build commands, project structure, Netlify deployment workflow, environment-variable guidance, and v1 content-maintenance notes; verify a new maintainer can follow its setup steps
+- [x] 1.5 Configure formatting, linting, and type-check/build scripts; verify all checks pass on the initial project
 
 ## 2. Styling and content foundations
 
 - [ ] 2.1 Create the SCSS global reset/base layer, custom-property token layer, typography defaults, and reusable mixins; verify global styles load on both routes
-- [ ] 2.2 Configure Tailwind to use the documented design-token values without duplicating conflicting breakpoints, colours, or spacing values; verify responsive utilities work alongside SCSS base styles
+- [x] 2.2 Configure Tailwind to use the documented design-token values without duplicating conflicting breakpoints, colours, or spacing values; verify responsive utilities work alongside SCSS base styles
 - [ ] 2.3 Define typed static content for Pizza and Cafe identity, location details, opening hours, menus, links, and asset references; verify each route can render from its own content object
 - [ ] 2.4 Add a documented asset workflow for supplied logos, imagery, social-preview images, and location-specific Instagram account identifiers; verify missing asset references fail clearly during local validation or build
 
@@ -23,6 +23,7 @@
 
 ## 4. Shared site shell and routing
 
+- [ ] 4.0 Supply and inventory the approved Figma design, font files and usage details, favicon, distinct Pizza and Cafe logos, photography, share images, and final restaurant copy; verify every supplied asset has an intended project location before visual page construction begins
 - [ ] 4.1 Build the reusable page layout, header, footer, and responsive navigation from the supplied Figma design; verify they render consistently on `/` and `/cafe`
 - [ ] 4.2 Implement the immediate logo-and-location selector at the root experience; verify Pizza and Cafe choices are keyboard- and touch-operable with no timed delay
 - [ ] 4.3 Implement the Pizza root route using Pizza-specific logo, imagery, menu, hours, address, and first-come-first-served/no-reservations policy; verify all essential operational information is rendered without client-side scripts

@@ -1,18 +1,18 @@
-# Dependencies
+# Dependencies and generated output
 node_modules/
+dist/
+.astro/
 
-# Environment variables
+# Local environment configuration
+.nvmrc
 .env
 .env.*
 !.env.example
 
-# Build output
-build/
-dist/
-.svelte-kit/
+# Netlify local state
+.netlify/
 
-# OS
+# Operating system and editor files
 .DS_Store
-
-# Logs
-*.log
+*.swp
+*.swo
