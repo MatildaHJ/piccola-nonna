@@ -8,10 +8,10 @@
 
 ## 2. Styling and content foundations
 
-- [ ] 2.1 Create the SCSS global reset/base layer, custom-property token layer, typography defaults, and reusable mixins; verify global styles load on both routes
+- [x] 2.1 Create the SCSS global reset/base layer, custom-property token layer, typography defaults, and reusable mixins; verify global styles load on both routes
 - [x] 2.2 Configure Tailwind to use the documented design-token values without duplicating conflicting breakpoints, colours, or spacing values; verify responsive utilities work alongside SCSS base styles
-- [ ] 2.3 Define typed static content for Pizza and Cafe identity, location details, opening hours, menus, links, and asset references; verify each route can render from its own content object
-- [ ] 2.4 Add a documented asset workflow for supplied logos, imagery, social-preview images, and location-specific Instagram account identifiers; verify missing asset references fail clearly during local validation or build
+- [x] 2.3 Define typed static content for Pizza and Cafe identity, location details, opening hours, menus, links, and asset references; verify each route can render from its own content object
+- [x] 2.4 Add a documented asset workflow for supplied logos, imagery, social-preview images, and location-specific Instagram account identifiers; verify missing asset references fail clearly during local validation or build
 
 ## 3. Netlify and live Instagram integration
 
@@ -23,12 +23,12 @@
 
 ## 4. Shared site shell and routing
 
-- [ ] 4.0 Supply and inventory the approved Figma design, font files and usage details, favicon, distinct Pizza and Cafe logos, photography, share images, and final restaurant copy; verify every supplied asset has an intended project location before visual page construction begins
-- [ ] 4.1 Build the reusable page layout, header, footer, and responsive navigation from the supplied Figma design; verify they render consistently on `/` and `/cafe`
-- [ ] 4.2 Implement the immediate logo-and-location selector at the root experience; verify Pizza and Cafe choices are keyboard- and touch-operable with no timed delay
-- [ ] 4.3 Implement the Pizza root route using Pizza-specific logo, imagery, menu, hours, address, and first-come-first-served/no-reservations policy; verify all essential operational information is rendered without client-side scripts
-- [ ] 4.4 Implement the `/cafe` route using Cafe-specific logo, imagery, menu, hours, and address; verify direct navigation to `/cafe` renders its complete essential content
-- [ ] 4.5 Implement the final Figma visual details and responsive layouts while keeping shared structure reusable; verify layouts at narrow mobile, tablet, and desktop viewport widths without horizontal scrolling
+- [x] 4.0 Inventory the supplied palette, fonts, favicon, Pizza and Cafe logos, selected photography, Pizza menu, location details, Instagram handles, and temporary Cafe/menu-hours states; verify every item has an intended project location before page construction
+- [ ] 4.1 Build the reusable page layout, header, footer, and responsive navigation from the current visual direction; verify they render consistently on `/` and `/cafe`
+- [x] 4.2 Implement the immediate logo-and-location selector at the root experience; verify Pizza and Cafe choices are keyboard- and touch-operable with no timed delay
+- [x] 4.3 Implement the Pizza root route using Pizza-specific logo, imagery, menu, hours, address, and first-come-first-served/no-reservations policy; verify all essential operational information is rendered without client-side scripts
+- [x] 4.4 Implement the `/cafe` route using Cafe-specific logo, imagery, menu, hours, and address; verify direct navigation to `/cafe` renders its complete essential content
+- [ ] 4.5 Implement the visual details and responsive layouts from the current palette, fonts, logos, and selected imagery, including a compact Google Maps treatment overlapping the footer; verify layouts at narrow mobile, tablet, and desktop viewport widths without horizontal scrolling and that each map opens the correct directions
 
 ## 5. Discovery, accessibility, and quality
 

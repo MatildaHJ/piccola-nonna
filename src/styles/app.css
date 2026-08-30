@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+@import './_tokens.scss';
 @import './base.scss';
 
 @theme inline {

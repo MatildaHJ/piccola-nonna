@@ -31,7 +31,7 @@ Alternative considered: Next.js. It provides more application and server capabil
 
 Use `/` for Pizza and `/cafe` for Cafe. Both routes consume a shared location-page composition and independently supplied content/assets. The root route includes an immediate, non-blocking choice between Pizza and Cafe that is compatible with Pizza remaining the primary domain destination.
 
-The exact visual relationship between the chooser and Pizza content will be implemented from the Figma design, but essential Pizza content must remain present in the initial root document for SEO and no-delay usability.
+The location selector and Pizza content will be designed directly in code from the current visual direction, but essential Pizza content must remain present in the initial root document for SEO and no-delay usability. Each location page ends with a compact Google Maps treatment that overlaps the footer and provides an accessible link to that location's directions.
 
 ### Content co-located in typed static modules
 
@@ -45,9 +45,9 @@ Use SCSS for the global reset/base layer, CSS custom-property design tokens, typ
 
 Alternative considered: Tailwind only. SCSS is retained because the project explicitly needs a structured global base, variables, and mixins.
 
-### Design and asset readiness
+### Design and asset direction
 
-The SCSS and Tailwind foundation may use clearly identified placeholder colours and system-font fallbacks while the project is being set up. Construction of the visual page composition begins only after the Figma design and production assets have been supplied: font files and licensing/use instructions, favicon, Pizza and Cafe logos, photography, social-sharing images, and final operational/menu copy. This prevents placeholder design decisions from becoming accidental production brand choices.
+Use the supplied palette, Platonick NF display font, Instrument Sans body font, current Pizza and Cafe logos, favicon, and selected photography as the initial visual direction. Design is iterated directly in code and may be refined as assets change. The Pizza content uses the supplied Swedish menu, address, and service policies; Cafe uses its supplied address and a clear "Coming soon" menu state. Opening hours are placeholders that mark Mondays and Tuesdays as closed until final hours are supplied.
 
 ### Shared components and minimal client interactivity
 
@@ -78,8 +78,8 @@ Generate route-level titles, descriptions, canonical URLs, social metadata, rest
 - [Restaurant hours or menus become stale] -> Centralize static content and document the update workflow and build verification.
 - [Instagram API access, token expiry, privacy, and provider limits can interrupt the feed] -> Use the official/approved provider path, keep credentials only in Netlify environment variables, cache responses, and render a non-blocking fallback state.
 - [Large photography can harm mobile performance] -> Optimize assets, use responsive image handling, and test the production build on mobile-sized viewports and slower networks.
-- [Figma output may not map directly to accessible interactions] -> Treat supplied Figma as the visual source while preserving semantic HTML, keyboard operation, contrast, and reduced-motion behavior.
-- [Missing production assets can stall or distort visual implementation] -> Complete the design-and-asset readiness task before constructing location-page visuals.
+- [Direct-in-code design can drift without a visual reference] -> Use the approved palette, fonts, assets, and shared layout as constraints; review and refine implementation in small increments.
+- [Map embeds can obscure directions or harm performance] -> Keep the visual map treatment compact, provide a direct Google Maps link, and ensure it does not block the footer or primary content.
 
 ## Migration Plan
 

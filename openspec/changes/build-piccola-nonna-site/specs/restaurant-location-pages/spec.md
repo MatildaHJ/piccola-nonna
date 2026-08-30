@@ -39,3 +39,14 @@ Location details, menus, opening hours, and supplied links SHALL be maintained a
 #### Scenario: Visitor loads a page without client-side scripts
 - **WHEN** a visitor views either location route before client-side scripts are available
 - **THEN** the location's menu and operational details remain available in the rendered page content
+
+### Requirement: Location directions
+Each location route SHALL end with a compact location-map treatment that visually overlaps the footer and provides an accessible link to that location's Google Maps directions.
+
+#### Scenario: Visitor needs Pizza directions
+- **WHEN** a visitor uses the map treatment on the Pizza route
+- **THEN** they can open Google Maps directions for Blekingegatan 36, Södermalm
+
+#### Scenario: Visitor needs Cafe directions
+- **WHEN** a visitor uses the map treatment on the Cafe route
+- **THEN** they can open Google Maps directions for Fållan 1B, Slakthusområdet

@@ -1,18 +1,21 @@
 ---
 import '../styles/app.css';
+import LocationPage from '../components/LocationPage.astro';
+import LocationSelector from '../components/LocationSelector.astro';
+import { pizzaLocation } from '../content/locations';
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="sv">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
-    <title>Piccola Nonna</title>
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <title>Piccola Nonna Pizza · Södermalm</title>
   </head>
   <body class="bg-canvas text-ink">
-    <main class="page-shell py-12">
-      <h1 class="font-display text-4xl">Piccola Nonna</h1>
-    </main>
+    <LocationPage location={pizzaLocation} showSelector>
+      <LocationSelector slot="selector" />
+    </LocationPage>
   </body>
 </html>

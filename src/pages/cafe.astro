@@ -1,0 +1,19 @@
+---
+import '../styles/app.css';
+import LocationPage from '../components/LocationPage.astro';
+import { cafeLocation } from '../content/locations';
+---
+
+<!doctype html>
+<html lang="sv">
+  <head
+    ><meta charset="utf-8" /><meta
+      name="viewport"
+      content="width=device-width"
+    /><link rel="icon" href="/favicon.ico" sizes="any" /><title>
+      Piccola Nonna Café · Slakthusområdet
+    </title></head
+  ><body class="bg-canvas text-ink"
+    ><LocationPage location={cafeLocation} /></body
+  >
+</html>

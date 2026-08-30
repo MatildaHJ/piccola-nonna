@@ -1,0 +1,119 @@
+---
+import { Image } from 'astro:assets';
+import type { Location } from '../content/locations';
+import InstagramSection from './InstagramSection.astro';
+import LocationMap from './LocationMap.astro';
+import SiteFooter from './SiteFooter.astro';
+import SiteHeader from './SiteHeader.astro';
+interface Props {
+  location: Location;
+  showSelector?: boolean;
+}
+const { location, showSelector = false } = Astro.props;
+---
+
+<SiteHeader {location} />
+<main>
+  {showSelector && <slot name="selector" />}
+  <section
+    class="page-shell grid gap-9 py-16 sm:py-24 lg:grid-cols-[0.9fr_1.1fr] lg:items-end lg:gap-16"
+  >
+    <div>
+      <p class="text-xs font-semibold uppercase tracking-[0.16em]">
+        {location.locationLabel}
+      </p><h1 class="mt-5 font-display text-6xl leading-[0.86] sm:text-8xl">
+        {location.shortName}
+      </h1><p class="mt-7 max-w-md text-lg leading-7 sm:text-xl">
+        {location.intro}
+      </p>{
+        location.visitPolicy && (
+          <p class="mt-6 max-w-md border-l-2 border-accent pl-4 text-sm leading-6">
+            {location.visitPolicy}
+          </p>
+        )
+      }
+    </div>
+    <Image
+      src={location.assets.hero}
+      alt=""
+      widths={[480, 768, 1080]}
+      sizes="(min-width: 1024px) 55vw, 100vw"
+      class="aspect-4/5 w-full object-cover"
+    />
+  </section>
+  <section class="bg-surface py-16 sm:py-24" aria-labelledby="menu-heading">
+    <div class="page-shell grid gap-12 lg:grid-cols-[0.55fr_1fr] lg:gap-20">
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-[0.16em]">
+          På menyn
+        </p><h2
+          id="menu-heading"
+          class="mt-4 font-display text-5xl leading-none sm:text-6xl"
+        >
+          Meny
+        </h2>{
+          location.menuStatus && (
+            <p class="mt-6 text-lg">{location.menuStatus}</p>
+          )
+        }
+      </div><div class="space-y-10">
+        {
+          location.menu.map((section) => (
+            <section>
+              <>
+                <h3 class="font-display text-3xl leading-none">
+                  {section.title}
+                </h3>
+                <ul class="mt-5 divide-y divide-line">
+                  {section.items.map((item) => (
+                    <li class="py-4 first:pt-0">
+                      <p class="font-medium">{item.name}</p>
+                      <p class="mt-1 text-sm leading-6 text-ink/75">
+                        {item.description}
+                      </p>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            </section>
+          ))
+        }
+      </div>
+    </div>{
+      location.notices && (
+        <div class="page-shell mt-12 border-t border-line pt-6">
+          <ul class="space-y-2 text-sm text-ink/80">
+            {location.notices.map((notice) => (
+              <li>{notice}</li>
+            ))}
+          </ul>
+        </div>
+      )
+    }
+  </section>
+  <section
+    class="page-shell grid gap-10 py-16 sm:py-24 lg:grid-cols-[0.8fr_1.2fr] lg:items-start"
+  >
+    <div>
+      <p class="text-xs font-semibold uppercase tracking-[0.16em]">
+        När vi har öppet
+      </p><h2 class="mt-4 font-display text-5xl leading-none sm:text-6xl">
+        Öppettider
+      </h2>
+    </div><dl class="divide-y divide-line border-y border-line">
+      {
+        location.openingHours.map((entry) => (
+          <div class="flex items-center justify-between gap-4 py-5 text-sm sm:text-base">
+            <>
+              <dt>{entry.days}</dt>
+              <dd class="font-medium">{entry.hours}</dd>
+            </>
+          </div>
+        ))
+      }
+    </dl>
+  </section>
+  <InstagramSection {location} />
+  <LocationMap {location} />
+</main>
+<SiteFooter {location} />

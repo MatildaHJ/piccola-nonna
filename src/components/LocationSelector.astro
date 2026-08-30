@@ -1,0 +1,31 @@
+---
+import { Image } from 'astro:assets';
+import { cafeLocation, pizzaLocation } from '../content/locations';
+---
+
+<section
+  class="bg-dark text-sand fixed top-0 left-0 z-50 inset-0"
+  aria-label="Välj restaurang"
+>
+  <div
+    class="page-shell flex flex-col items-center justify-center py-8 text-center"
+  >
+    <Image
+      src={pizzaLocation.assets.logo}
+      alt="Piccola Nonna"
+      class="w-72 sm:w-100"
+    /><p class="text-sm uppercase tracking-[0.18em] text-sand/75">
+      Välj plats
+    </p><div class="mt-5 flex flex-wrap justify-center gap-3">
+      <a
+        href={pizzaLocation.route}
+        class="rounded-full border border-sand px-6 py-3 text-sm font-medium transition-colors hover:border-accent hover:bg-accent hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+        >Pizza · Södermalm</a
+      ><a
+        href={cafeLocation.route}
+        class="rounded-full border border-sand px-6 py-3 text-sm font-medium transition-colors hover:border-accent hover:bg-accent hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+        >Café · Slakthusområdet</a
+      >
+    </div>
+  </div>
+</section>

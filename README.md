@@ -39,17 +39,26 @@ npm run preview
 ```text
 src/
   pages/       Public routes (`/` and `/cafe`)
-  styles/      Tailwind entry point, SCSS tokens, base styles, and mixins
-  content/     Static Pizza and Cafe details, menus, and hours (added during implementation)
-  components/  Shared layout and page sections (added during implementation)
-public/        Supplied logos, photography, and share images
+  styles/      Tailwind SCSS entry point, tokens, base styles, and mixins
+  content/     Static Pizza and Cafe details, menus, hours, and asset inventory
+  components/  Shared layout and page sections
+  images/      Source logos and photography, processed by Astro during builds
+public/        Browser-served files such as the favicon and pinned-tab icon
 netlify/
   functions/   Live Instagram feed adapter (added when credentials are available)
 ```
 
 ## Content maintenance in v1
 
-Restaurant content is intentionally static in v1. Once the content modules are added, menus, opening hours, addresses, links, and image references will be edited in `src/content/`, then checked with `npm run build` before committing. There is no CMS in v1.
+Restaurant content is intentionally static in v1. There is no CMS in this release.
+
+- Update menus, opening hours, addresses, policy copy, maps, and Instagram account identifiers in `src/content/locations.ts`.
+- Update imported logo, photography, and social-preview references in `src/content/assets.ts`. Keep source images in `src/images/` so Astro validates and optimizes them at build time.
+- Keep browser-served site files such as the favicon in `public/` and reference them with a leading slash (for example, `/favicon.ico`).
+- Replace `socialPreview` in the asset inventory with a location-specific share image once one is supplied. The temporary value uses the existing site logo.
+- Run `npm run check` and `npm run build` after every content or asset change. Missing imported source assets fail the TypeScript check or production build clearly.
+
+The current v1 asset inventory is intentionally small: the supplied Pizza and temporary Cafe logo are used per location; Pizza uses `nonna-pizza.jpg` and Café uses `alina.jpg`; the favicon and Safari pinned-tab icon stay in `public/`. The Cafe logo can be replaced later by changing only its import in `src/content/assets.ts`.
 
 ## Netlify deployment
 
