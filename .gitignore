@@ -1,0 +1,18 @@
+# Dependencies
+node_modules/
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Build output
+build/
+dist/
+.svelte-kit/
+
+# OS
+.DS_Store
+
+# Logs
+*.log
