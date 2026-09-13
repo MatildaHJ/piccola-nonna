@@ -7,7 +7,7 @@ const { location } = Astro.props;
 ---
 
 <section
-  class="relative z-10 mx-auto -mb-16 w-[min(100%-2rem,75rem)] bg-sand p-6 text-ink shadow-[var(--soft-shadow)] sm:-mb-20 sm:p-10"
+  class="relative z-10 mx-auto -mb-16 w-[min(100%-2rem,75rem)] bg-accent p-6 text-white shadow-(--soft-shadow) sm:-mb-20 sm:p-10"
 >
   <p class="text-xs font-semibold uppercase tracking-[0.16em]">Hitta hit</p><div
     class="mt-4 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between"
@@ -22,7 +22,7 @@ const { location } = Astro.props;
       href={location.mapUrl}
       target="_blank"
       rel="noreferrer"
-      class="inline-flex w-fit rounded-full bg-dark px-5 py-3 text-sm font-medium text-sand transition-colors hover:bg-accent hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-dark"
+      class="inline-flex w-fit rounded-full bg-canvas px-5 py-3 text-sm font-medium text-white transition-colors hover:bg-primary hover:text-canvas focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
       >Öppna vägbeskrivning <span aria-hidden="true">↗</span></a
     >
   </div>

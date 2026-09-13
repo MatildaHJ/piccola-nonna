@@ -17,8 +17,9 @@
     "format:write": "prettier --write \"src/**/*.{astro,css,scss,ts}\" \"*.{js,mjs,json,md}\""
   },
   "dependencies": {
+    "@lucide/astro": "^1.37.0",
     "@tailwindcss/vite": "^4.3.3",
-    "astro": "^7.2.9",
+    "astro": "^7.3.2",
     "sass": "^1.103.1",
     "tailwindcss": "^4.3.3"
   },

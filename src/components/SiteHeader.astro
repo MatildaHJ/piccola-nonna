@@ -1,5 +1,4 @@
 ---
-import { Image } from 'astro:assets';
 import type { Location } from '../content/locations';
 interface Props {
   location: Location;
@@ -7,29 +6,54 @@ interface Props {
 const { location } = Astro.props;
 ---
 
-<header class="bg-dark text-sand">
+<header class="bg-canvas text-white">
   <div class="page-shell flex items-center justify-between gap-4 py-4 sm:py-5">
-    <a
-      href="/"
-      class="inline-flex max-w-36 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
-      aria-label="Piccola Nonna Pizza, startsida"
-      ><Image src={location.assets.logo} alt="" class="h-auto w-full" /></a
-    >
     <nav aria-label="Välj restaurang">
       <ul class="flex items-center gap-4 text-sm font-medium sm:gap-6">
         <li>
           <a
             href="/"
             aria-current={location.id === 'pizza' ? 'page' : undefined}
-            class="transition-colors hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+            class=`${location.id === 'pizza' ? 'underline underline-offset-4' : ''} transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary`
             >Pizza</a
           >
         </li><li>
           <a
             href="/cafe"
             aria-current={location.id === 'cafe' ? 'page' : undefined}
-            class="transition-colors hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+            class="transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
             >Café</a
+          >
+        </li>
+      </ul>
+    </nav>
+    <a
+      href="/"
+      class="inline-flex max-w-36 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+      aria-label="Piccola Nonna Pizza, startsida"
+      ><img src={location.assets.logo.src} alt="" class="h-auto w-16" /></a
+    >
+    <nav aria-label="Välj restaurang">
+      <ul class="flex items-center gap-4 text-sm font-medium sm:gap-6">
+        <li>
+          <a
+            href="/"
+            class="transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+            >Meny</a
+          >
+        </li>
+        <li>
+          <a
+            href="/"
+            class="transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+            >Öppettider</a
+          >
+        </li>
+        <li>
+          <a
+            href="/"
+            class="transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+            >Om oss</a
           >
         </li>
       </ul>

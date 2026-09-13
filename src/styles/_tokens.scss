@@ -7,6 +7,22 @@
 }
 
 @font-face {
+  font-family: 'Federo';
+  src: url('./fonts/FederoRegular.woff2') format('woff2');
+  font-display: swap;
+  font-style: normal;
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'Limelight';
+  src: url('./fonts/LimelightRegular.woff2') format('woff2');
+  font-display: swap;
+  font-style: normal;
+  font-weight: 400;
+}
+
+@font-face {
   font-family: 'Instrument Sans';
   src: url('./fonts/instrument-sans/InstrumentSans-Regular.woff2')
     format('woff2');
@@ -60,18 +76,13 @@
   font-weight: 600;
 }
 
-/* Brand tokens supplied for the first visual direction. */
+/* Core brand tokens. Add new colours only when a real UI need appears. */
 :root {
-  --canvas: #f5ede1;
-  --surface: #f5ede1;
-  --dark: #1a1613;
-  --ink: #2d2a27;
-  --sand: #d0c0ac;
-  --muted: color-mix(in srgb, var(--ink), var(--canvas) 50%);
-  --accent: #f29699;
-  --accent-strong: color-mix(in srgb, var(--accent), var(--ink) 18%);
-  --line: var(--sand);
-  --on-dark: var(--sand);
+  --canvas: #101010;
+  --primary: #f29699;
+  --accent: #595959;
+  --accent-light: #a8a8a8;
+  --muted: color-mix(in srgb, white 65%, var(--canvas));
 
   --display-font: 'Platonick NF', serif;
   --body-font: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;

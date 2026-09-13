@@ -7,7 +7,7 @@ const { location } = Astro.props;
 ---
 
 <section
-  class="border-t border-line py-16 sm:py-24"
+  class="border-t border-accent py-16 sm:py-24"
   aria-labelledby="instagram-heading"
 >
   <div
@@ -26,7 +26,7 @@ const { location } = Astro.props;
       href={location.instagramUrl}
       target="_blank"
       rel="noreferrer"
-      class="inline-flex w-fit rounded-full border border-ink px-5 py-3 text-sm font-medium transition-colors hover:border-accent hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+      class="inline-flex w-fit rounded-full border border-accent px-5 py-3 text-sm font-medium transition-colors hover:border-primary hover:bg-primary hover:text-canvas focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
       >@{location.instagramHandle} <span aria-hidden="true">↗</span></a
     >
   </div>

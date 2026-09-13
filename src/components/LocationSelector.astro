@@ -1,31 +1,133 @@
 ---
-import { Image } from 'astro:assets';
 import { cafeLocation, pizzaLocation } from '../content/locations';
+import neutralLogo from '../images/logo-neutral.svg';
+import { MapPin, ChevronDown } from '@lucide/astro';
 ---
 
 <section
-  class="bg-dark text-sand fixed top-0 left-0 z-50 inset-0"
+  data-location-selector
+  class="bg-canvas text-white sticky top-0 z-50 flex min-h-svh w-full items-center justify-center gap-5 overflow-y-auto overflow-x-hidden p-5 sm:p-10"
   aria-label="Välj restaurang"
 >
   <div
-    class="page-shell flex flex-col items-center justify-center py-8 text-center"
+    class="page-shell flex flex-col items-center justify-center gap-12 text-center"
   >
-    <Image
-      src={pizzaLocation.assets.logo}
-      alt="Piccola Nonna"
-      class="w-72 sm:w-100"
-    /><p class="text-sm uppercase tracking-[0.18em] text-sand/75">
-      Välj plats
-    </p><div class="mt-5 flex flex-wrap justify-center gap-3">
+    <img
+      src={neutralLogo.src}
+      alt="La Piccola Nonna"
+      class="h-[40svh] sm:h-[45vh] w-auto"
+    />
+    <h1 class="sr-only">La piccola nonna</h1>
+    <div
+      class="mt-5 flex justify-between sm:justify-center sm:gap-28 w-full sm:w-auto px-4"
+    >
       <a
         href={pizzaLocation.route}
-        class="rounded-full border border-sand px-6 py-3 text-sm font-medium transition-colors hover:border-accent hover:bg-accent hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
-        >Pizza · Södermalm</a
-      ><a
-        href={cafeLocation.route}
-        class="rounded-full border border-sand px-6 py-3 text-sm font-medium transition-colors hover:border-accent hover:bg-accent hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
-        >Café · Slakthusområdet</a
+        data-location-choice="pizza"
+        class="flex flex-col gap-2 justify-center items-center text-accent-light! transition-colors duration-(--base-duration) ease-(--standard-ease) hover:text-white! focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary w-35"
       >
+        <h2 class="text-4xl uppercase font-display tracking-wider leading-8">
+          Pizzeria
+        </h2>
+        <span class="flex items-center gap-1 text-xs uppercase mt-1"
+          ><MapPin
+            size={12}
+            stroke-width={1.5}
+            aria-hidden="true"
+          />Södermalm</span
+        >
+        <ChevronDown size={44} stroke-width={1.5} aria-hidden="true" />
+      </a>
+      <a
+        href={cafeLocation.route}
+        data-location-choice="cafe"
+        class="flex flex-col gap-2 justify-center items-center text-accent-light! transition-colors duration-(--base-duration) ease-(--standard-ease) hover:text-white! focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary w-35"
+      >
+        <h2 class="text-4xl uppercase font-display tracking-wider leading-8">
+          Café
+        </h2>
+        <span class="flex items-center gap-1 text-xs uppercase mt-1"
+          ><MapPin
+            size={12}
+            stroke-width={1.5}
+            aria-hidden="true"
+          />Slakthusområdet</span
+        >
+        <ChevronDown size={44} stroke-width={1.5} aria-hidden="true" />
+      </a>
     </div>
   </div>
 </section>
+
+<script>
+  const selector = document.querySelector<HTMLElement>(
+    '[data-location-selector]',
+  );
+  const pageContent = document.querySelector<HTMLElement>(
+    '[data-location-page-content]',
+  );
+
+  if (selector && pageContent) {
+    const choices = selector.querySelectorAll<HTMLAnchorElement>(
+      '[data-location-choice]',
+    );
+    const prefersReducedMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)',
+    );
+
+    const animateExitAndScroll = () =>
+      new Promise<void>((resolve) => {
+        const duration = 640;
+        const startTime = performance.now();
+        const landingHeight = selector.getBoundingClientRect().height;
+
+        const step = (currentTime: number) => {
+          const progress = Math.min((currentTime - startTime) / duration, 1);
+          const easedProgress = progress ** 1.3;
+
+          const offset = -landingHeight * easedProgress;
+          selector.style.transform = `translateY(${offset}px)`;
+          pageContent.style.transform = `translateY(${offset}px)`;
+
+          if (progress < 1) {
+            window.requestAnimationFrame(step);
+            return;
+          }
+
+          resolve();
+        };
+
+        window.requestAnimationFrame(step);
+      });
+
+    choices.forEach((choice) => {
+      choice.addEventListener('click', async (event) => {
+        if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey)
+          return;
+
+        event.preventDefault();
+
+        if (selector.dataset.transitioning === 'true') return;
+
+        selector.dataset.transitioning = 'true';
+        const destination = choice.dataset.locationChoice;
+        const shouldReduceMotion = prefersReducedMotion.matches;
+
+        if (shouldReduceMotion) {
+          selector.hidden = true;
+        } else {
+          await animateExitAndScroll();
+          selector.hidden = true;
+          pageContent.style.transform = '';
+        }
+
+        document.body.classList.remove('overflow-hidden');
+
+        if (destination === 'cafe') {
+          window.location.assign(choice.href);
+          return;
+        }
+      });
+    });
+  }
+</script>
