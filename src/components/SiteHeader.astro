@@ -1,62 +1,181 @@
 ---
 import type { Location } from '../content/locations';
+import { X } from '@lucide/astro';
 interface Props {
-  location: Location;
+  location?: Location;
+  showAboveSelector?: boolean;
+  hideLogo?: boolean;
+  hideLocationNav?: boolean;
 }
-const { location } = Astro.props;
+const {
+  location,
+  showAboveSelector = false,
+  hideLogo = false,
+  hideLocationNav = false,
+} = Astro.props;
+const menuId = `site-menu-${location?.id ?? 'landing'}`;
 ---
 
-<header class="bg-canvas text-white">
-  <div class="page-shell flex items-center justify-between gap-4 py-4 sm:py-5">
-    <nav aria-label="Välj restaurang">
-      <ul class="flex items-center gap-4 text-sm font-medium sm:gap-6">
-        <li>
-          <a
-            href="/"
-            aria-current={location.id === 'pizza' ? 'page' : undefined}
-            class=`${location.id === 'pizza' ? 'underline underline-offset-4' : ''} transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary`
-            >Pizza</a
+<header
+  data-site-header
+  class:list={[
+    'bg-transparent text-white fixed top-0 w-full',
+    showAboveSelector || !location ? 'z-60' : 'z-40',
+  ]}
+>
+  <div class="relative w-full page-shell">
+    <div class="w-full flex items-center justify-between gap-4 py-4 sm:py-5">
+      <div>
+        {
+          location && (
+            <a
+              href="/"
+              data-site-logo
+              class:list={[
+                'inline-flex max-w-36 transition-opacity focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent',
+                hideLogo && 'pointer-events-none opacity-0',
+              ]}
+              aria-label="Piccola Nonna Pizza, startsida"
+            >
+              <img src={location.assets.logo.src} alt="" class="h-auto w-16" />
+            </a>
+          )
+        }
+      </div>
+      <div class="flex items-center gap-8 md:gap-10">
+        <nav
+          aria-label="Välj restaurang"
+          data-location-nav
+          class:list={[
+            'transition-opacity',
+            hideLocationNav && 'pointer-events-none opacity-0',
+          ]}
+        >
+          <ul class="flex items-center gap-4 text-sm font-medium">
+            <li>
+              <a
+                href="/"
+                aria-current={location?.id === 'pizza' ? 'page' : undefined}
+                class=`${location?.id === 'pizza' ? 'underline underline-offset-4' : ''} transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary`
+                >Pizzeria</a
+              >
+            </li>/<li>
+              <a
+                href="/cafe"
+                aria-current={location?.id === 'cafe' ? 'page' : undefined}
+                class="transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+                >Café</a
+              >
+            </li>
+          </ul>
+        </nav>
+        <button
+          type="button"
+          aria-label="Navigeringsmeny"
+          aria-controls={menuId}
+          aria-expanded="false"
+          data-menu-toggle
+          class="focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="h-6 w-6"
           >
-        </li><li>
-          <a
-            href="/cafe"
-            aria-current={location.id === 'cafe' ? 'page' : undefined}
-            class="transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
-            >Café</a
-          >
-        </li>
-      </ul>
-    </nav>
-    <a
-      href="/"
-      class="inline-flex max-w-36 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
-      aria-label="Piccola Nonna Pizza, startsida"
-      ><img src={location.assets.logo.src} alt="" class="h-auto w-16" /></a
-    >
-    <nav aria-label="Välj restaurang">
-      <ul class="flex items-center gap-4 text-sm font-medium sm:gap-6">
-        <li>
-          <a
-            href="/"
-            class="transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
-            >Meny</a
-          >
-        </li>
-        <li>
-          <a
-            href="/"
-            class="transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
-            >Öppettider</a
-          >
-        </li>
-        <li>
-          <a
-            href="/"
-            class="transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
-            >Om oss</a
-          >
-        </li>
-      </ul>
-    </nav>
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+
+        <nav
+          id={menuId}
+          aria-label="Navigering"
+          aria-hidden="true"
+          data-site-menu
+          class="fixed inset-y-0 left-0 z-60 flex h-svh w-[min(22rem,85vw)] -translate-x-full flex-col bg-black/60 p-5 text-white shadow-2xl transition-transform duration-(--base-duration) ease-(--standard-ease) sm:p-8 lg:left-auto lg:right-0 lg:translate-x-full"
+        >
+          <div class="flex items-center justify-end">
+            <button
+              type="button"
+              aria-label="Stäng navigeringsmeny"
+              data-menu-close
+              class="focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+              ><X size={28} stroke-width={1.5} aria-hidden="true" /></button
+            >
+          </div>
+          <ul class="mt-16 flex flex-col gap-6 text-3xl font-display uppercase">
+            <li>
+              <a
+                href="/"
+                class="transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+                >Meny</a
+              >
+            </li>
+            <li>
+              <a
+                href="/"
+                class="transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+                >Öppettider</a
+              >
+            </li>
+            <li>
+              <a
+                href="/"
+                class="transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+                >Om oss</a
+              >
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
   </div>
 </header>
+
+<script>
+  document
+    .querySelectorAll<HTMLElement>('[data-site-header]')
+    .forEach((header) => {
+      const toggle =
+        header.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+      const menu = header.querySelector<HTMLElement>('[data-site-menu]');
+      const close =
+        header.querySelector<HTMLButtonElement>('[data-menu-close]');
+
+      if (!toggle || !menu || !close) return;
+
+      const setMenuOpen = (isOpen: boolean) => {
+        menu.classList.toggle('-translate-x-full', !isOpen);
+        menu.classList.toggle('lg:translate-x-full', !isOpen);
+        menu.setAttribute('aria-hidden', String(!isOpen));
+        toggle.setAttribute('aria-expanded', String(isOpen));
+
+        if (isOpen) {
+          close.focus();
+        } else {
+          toggle.focus();
+        }
+      };
+
+      toggle.addEventListener('click', () => {
+        setMenuOpen(toggle.getAttribute('aria-expanded') !== 'true');
+      });
+
+      close.addEventListener('click', () => setMenuOpen(false));
+
+      window.addEventListener('keydown', (event) => {
+        if (
+          event.key === 'Escape' &&
+          toggle.getAttribute('aria-expanded') === 'true'
+        ) {
+          setMenuOpen(false);
+        }
+      });
+    });
+</script>

@@ -1,10 +1,10 @@
 import type { ImageMetadata } from 'astro';
 
-import cafeLogo from '../images/logo-cafe.svg';
-import pizzaLogo from '../images/logo-pizza.svg';
-import cafeHero from '../images/alina.jpg';
-import pizzaHero from '../images/nonna-pizza.jpg';
-import pizzaDetail from '../images/nonna-pizza2.jpeg';
+import cafeLogo from '../images/logo-cafe.png';
+import pizzaLogo from '../images/logo-pizza.png';
+import cafeHero from '../images/location-cafe.png';
+import pizzaHero from '../images/pizza/nonna-pizza.jpg';
+import pizzaDetail from '../images/pizza/nonna-pizza2.jpeg';
 
 export type LocationAssets = {
   logo: ImageMetadata;

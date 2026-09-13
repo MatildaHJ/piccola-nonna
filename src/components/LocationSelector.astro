@@ -1,61 +1,32 @@
 ---
 import { cafeLocation, pizzaLocation } from '../content/locations';
-import neutralLogo from '../images/logo-neutral.svg';
-import { MapPin, ChevronDown } from '@lucide/astro';
+import ImageCard from './component-parts/ImageCard.astro';
+import pizzaCardBg from '../images/location-pizza.png';
+import cafeCardBg from '../images/location-cafe.png';
+import pageBg from '../images/pizza/nonna-pizza5.png';
+
+const imageSrc = pageBg.src;
 ---
 
 <section
   data-location-selector
-  class="bg-canvas text-white sticky top-0 z-50 flex min-h-svh w-full items-center justify-center gap-5 overflow-y-auto overflow-x-hidden p-5 sm:p-10"
+  class="bg-canvas text-white sticky top-0 z-50 flex min-h-svh w-full items-center justify-center gap-5 overflow-y-auto overflow-x-hidden px-5 sm:px-10"
   aria-label="Välj restaurang"
 >
-  <div
-    class="page-shell flex flex-col items-center justify-center gap-12 text-center"
-  >
-    <img
-      src={neutralLogo.src}
-      alt="La Piccola Nonna"
-      class="h-[40svh] sm:h-[45vh] w-auto"
+  <h1 class="sr-only">La piccola nonna</h1>
+  <div class="page-shell flex items-center justify-center gap-12 max-h-[80vh]">
+    <ImageCard
+      location={pizzaLocation}
+      logoSrc={pizzaLocation.assets.logo.src}
+      imageSrc={pizzaCardBg.src}
+      description="Södermalm"
     />
-    <h1 class="sr-only">La piccola nonna</h1>
-    <div
-      class="mt-5 flex justify-between sm:justify-center sm:gap-28 w-full sm:w-auto px-4"
-    >
-      <a
-        href={pizzaLocation.route}
-        data-location-choice="pizza"
-        class="flex flex-col gap-2 justify-center items-center text-accent-light! transition-colors duration-(--base-duration) ease-(--standard-ease) hover:text-white! focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary w-35"
-      >
-        <h2 class="text-4xl uppercase font-display tracking-wider leading-8">
-          Pizzeria
-        </h2>
-        <span class="flex items-center gap-1 text-xs uppercase mt-1"
-          ><MapPin
-            size={12}
-            stroke-width={1.5}
-            aria-hidden="true"
-          />Södermalm</span
-        >
-        <ChevronDown size={44} stroke-width={1.5} aria-hidden="true" />
-      </a>
-      <a
-        href={cafeLocation.route}
-        data-location-choice="cafe"
-        class="flex flex-col gap-2 justify-center items-center text-accent-light! transition-colors duration-(--base-duration) ease-(--standard-ease) hover:text-white! focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary w-35"
-      >
-        <h2 class="text-4xl uppercase font-display tracking-wider leading-8">
-          Café
-        </h2>
-        <span class="flex items-center gap-1 text-xs uppercase mt-1"
-          ><MapPin
-            size={12}
-            stroke-width={1.5}
-            aria-hidden="true"
-          />Slakthusområdet</span
-        >
-        <ChevronDown size={44} stroke-width={1.5} aria-hidden="true" />
-      </a>
-    </div>
+    <ImageCard
+      location={cafeLocation}
+      logoSrc={cafeLocation.assets.logo.src}
+      imageSrc={cafeCardBg.src}
+      description="Slakthusområdet"
+    />
   </div>
 </section>
 
@@ -127,6 +98,12 @@ import { MapPin, ChevronDown } from '@lucide/astro';
           window.location.assign(choice.href);
           return;
         }
+
+        document
+          .querySelectorAll<HTMLElement>('[data-site-logo], [data-location-nav]')
+          .forEach((element) => {
+            element.classList.remove('pointer-events-none', 'opacity-0');
+          });
       });
     });
   }

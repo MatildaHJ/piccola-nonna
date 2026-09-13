@@ -3,11 +3,40 @@
 @import './base.scss';
 
 @theme inline {
-  --color-canvas: var(--canvas);
-  --color-primary: var(--primary);
+  --color-canvas: #151515;
+  --color-primary: #f29699;
   --color-accent: #595959;
   --color-accent-light: #a8a8a8;
   --color-muted: var(--muted);
   --font-display: var(--display-font);
   --font-sans: var(--body-font);
+}
+
+@theme {
+  --animate-chevron-bounce: chevron-bounce 1.1s ease-out both;
+
+  @keyframes chevron-bounce {
+    0% {
+      opacity: 0;
+      transform: translateY(0);
+    }
+
+    24% {
+      opacity: 1;
+      transform: translateY(0.3rem);
+    }
+
+    44% {
+      transform: translateY(0);
+    }
+
+    64% {
+      transform: translateY(0.15rem);
+    }
+
+    82%,
+    100% {
+      transform: translateY(0);
+    }
+  }
 }
