@@ -3,45 +3,22 @@ import type { Location } from '../content/locations';
 import SiteFooter from './SiteFooter.astro';
 import SiteHeader from './SiteHeader.astro';
 import Menu from './component-parts/Menu.astro';
-import pizzaMenuBackground from '../images/pizza/nonna-pizza5.png';
+import Hero from './component-parts/Hero.astro';
+import LocationInfoCards from './component-parts/LocationInfoCards.astro';
 interface Props {
   location: Location;
-  showSelector?: boolean;
 }
-const { location, showSelector = false } = Astro.props;
-const menuBackgroundStyle =
-  location.id === 'pizza'
-    ? `background-image: linear-gradient(to bottom, rgb(21 21 21 / 35%), rgb(21 21 21 / 90%)), url(${pizzaMenuBackground.src});`
-    : undefined;
+const { location } = Astro.props;
 ---
 
-{showSelector && <slot name="selector" />}
 <div data-location-page-content>
-  <SiteHeader
-    {location}
-    showAboveSelector={showSelector}
-    hideLogo={showSelector}
-    hideLocationNav={showSelector}
-  />
+  <Hero location={location} />
+  <SiteHeader {location} />
   <main>
-    <section
-      id={showSelector ? 'restaurant-content' : undefined}
-      class="relative isolate overflow-hidden bg-canvas py-16 sm:py-24"
-      aria-labelledby="menu-heading"
-    >
-      {
-        menuBackgroundStyle && (
-          <div
-            aria-hidden="true"
-            class="absolute inset-0 z-0 bg-cover bg-center grayscale"
-            style={menuBackgroundStyle}
-          />
-        )
-      }
-      <div class="relative z-10">
-        <Menu location={location} />
-      </div>
+    <section class="bg-canvas py-16 sm:py-24" aria-labelledby="menu-heading">
+      <Menu location={location} />
     </section>
+    <LocationInfoCards location={location} />
   </main>
   <SiteFooter />
 </div>

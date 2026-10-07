@@ -1,0 +1,36 @@
+---
+import type { Location } from '../../content/locations';
+
+interface Props {
+  location: Location;
+}
+
+const { location } = Astro.props;
+---
+
+<section class="bg-canvas py-16 sm:py-24" aria-label="Praktisk information">
+  <div class="page-shell grid gap-4 md:grid-cols-3 md:gap-6">
+    {
+      location.infoCards.map((card) => (
+        <article class="flex min-h-56 flex-col bg-canvas-light p-6 sm:p-8">
+          <h2 class="font-display text-3xl leading-none">{card.title}</h2>
+          <div class="mt-6 space-y-2 text-sm leading-6 text-muted">
+            {card.content.map((line) => (
+              <p>{line}</p>
+            ))}
+          </div>
+          {card.link && (
+            <a
+              href={card.link.href}
+              target="_blank"
+              rel="noreferrer"
+              class="mt-auto pt-6 text-sm font-medium text-primary transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+            >
+              {card.link.label} <span aria-hidden="true">↗</span>
+            </a>
+          )}
+        </article>
+      ))
+    }
+  </div>
+</section>

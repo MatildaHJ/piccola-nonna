@@ -1,3 +1,6 @@
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
 *,
 *::before,
 *::after {
@@ -5,9 +8,9 @@
 }
 
 html {
-  background: var(--canvas);
-  color: white;
-  font-family: var(--body-font);
+  background: $bg-canvas;
+  color: $color-text;
+  font-family: $font-body;
   line-height: 1.5;
   text-rendering: optimizeLegibility;
 }
@@ -15,6 +18,18 @@ html {
 body {
   margin: 0;
   min-width: 20rem;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 82.5rem;
+
+  @include down('xl') {
+    padding: 0 1.25rem;
+  }
+  @include down('sm') {
+    padding: 0 0.625rem;
+  }
 }
 
 img,
@@ -37,14 +52,8 @@ a {
 }
 
 :focus-visible {
-  outline: 0.125rem solid var(--accent);
+  outline: 0.125rem solid $color-accent;
   outline-offset: 0.2rem;
-}
-
-.page-shell {
-  margin-inline: auto;
-  max-width: var(--page-width);
-  padding-inline: clamp(1rem, 4vw, 3rem);
 }
 
 @media (prefers-reduced-motion: reduce) {

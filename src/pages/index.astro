@@ -1,7 +1,6 @@
 ---
 import '../styles/app.css';
 import LocationPage from '../components/LocationPage.astro';
-import LocationSelector from '../components/LocationSelector.astro';
 import { pizzaLocation } from '../content/locations';
 ---
 
@@ -13,9 +12,7 @@ import { pizzaLocation } from '../content/locations';
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <title>Piccola Nonna Pizza · Södermalm</title>
   </head>
-  <body class="bg-canvas text-white overflow-hidden">
-    <LocationPage location={pizzaLocation} showSelector>
-      <LocationSelector slot="selector" />
-    </LocationPage>
+  <body class="bg-canvas text-white">
+    <LocationPage location={pizzaLocation} />
   </body>
 </html>

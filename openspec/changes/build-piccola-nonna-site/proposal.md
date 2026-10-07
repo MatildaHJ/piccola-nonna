@@ -6,7 +6,7 @@ Piccola Nonna needs a fast, maintainable web presence that helps visitors quickl
 
 - Create a static Astro website, deployed automatically to Netlify from the repository.
 - Provide the Pizza restaurant at the root route and the Cafe at `/cafe`, with equal visual treatment but Pizza remaining the primary domain destination.
-- Add an immediate location-selection treatment with the supplied animated logo and choices for Pizza and Cafe; it must not delay navigation or conceal practical information from visitors and search engines.
+- Make the Pizzeria the direct root-route landing experience and link to the Cafe landing at `/cafe` through the shared location navigation.
 - Establish a shared responsive site shell, including header, footer, and a live Instagram section, with location-specific logos, imagery, menus, opening hours, and details supplied as static content.
 - Establish Tailwind CSS and SCSS foundations: global base styles, shared CSS variables, and reusable SCSS mixins alongside Tailwind utilities.
 - Include accessible, performance-conscious interactions and motion, with the final visual language implemented from the Figma design.

@@ -3,53 +3,83 @@ import type { Location } from '../../content/locations';
 
 interface Props {
   location: Location;
-  showSelector?: boolean;
 }
-const { location, showSelector = false } = Astro.props;
+const { location } = Astro.props;
 ---
 
-<div class="page-shell pt-10 md:pt-12">
-  <div
-    class="flex flex-col gap-12 rounded-2xl border border-primary max-w-[80vw] mx-auto p-4 md:p-8 bg-black/80 shadow-lg"
-  >
-    <div>
-      <h2
-        id="menu-heading"
-        class="mt-4 font-display text-5xl leading-none sm:text-6xl"
+<div class="container">
+  <div class="mx-auto flex max-w-[80vw] flex-col p-4 md:p-8">
+    <div class="flex justify-between items-end mb-12 md:mb-20">
+      <div class="flex flex-col gap-2">
+        {
+          location.menuNote && (
+            <p class="text-[10px] md:text-xs tracking-wider uppercase">
+              {location.menuNote}
+            </p>
+          )
+        }
+        <h2
+          id="menu-heading"
+          class="text-5xl md:text-6xl leading-none font-display text-primary"
+        >
+          Menyn
+        </h2>
+      </div>
+      <div class="flex flex-col items-end gap-1 text-right">
+        {
+          location.menuStatus && (
+            <p class="flex items-center gap-2 text-sm text-muted">
+              <span
+                aria-hidden="true"
+                class="mb-0.5 h-3 w-3 rounded-[3px] bg-accent"
+              />
+              {location.menuStatus}
+            </p>
+          )
+        }
+      </div>
+    </div>
+    <div class="relative">
+      <div
+        aria-hidden="true"
+        class="absolute inset-y-0 left-1/2 hidden -translate-x-1/2 flex-col items-center md:flex"
       >
-        Meny
-      </h2>{
-        location.menuStatus && <p class="mt-6 text-lg">{location.menuStatus}</p>
-      }
-    </div><div class="space-y-10">
-      {
-        location.menu.map((section) => (
-          <section>
-            <>
-              <h3 class="font-display text-3xl leading-none">
+        <span class="w-px flex-1 bg-primary"></span>
+        <span
+          class="my-6 size-10 shrink-0 rounded-full bg-primary text-[#2F4858] flex items-center justify-center"
+          >✦</span
+        >
+        <span class="w-px flex-1 bg-primary"></span>
+      </div>
+      <div class="grid gap-10 md:grid-cols-2 md:gap-20">
+        {
+          location.menu.map((section) => (
+            <section>
+              <h3 class="font-display text-3xl md:text-4xl leading-none text-primary">
                 {section.title}
               </h3>
-              <ul class="mt-5 divide-y divide-accent">
+              <ul class="mt-5">
                 {section.items.map((item) => (
                   <li class="py-4 first:pt-0">
-                    <p class="font-medium">{item.name}</p>
+                    <p class="font-medium text-lg md:text-xl">{item.name}</p>
                     <p class="mt-1 text-sm leading-6 text-muted">
                       {item.description}
                     </p>
                   </li>
                 ))}
               </ul>
-            </>
-          </section>
-        ))
-      }
+            </section>
+          ))
+        }
+      </div>
     </div>
+
     {
       location.notices && (
-        <div class="page-shell mt-12 border-t border-accent pt-6">
-          <ul class="space-y-2 text-sm text-muted">
+        <div class="mt-12 pt-6">
+          <ul class="space-y-2 text-sm text-muted/80">
             {location.notices.map((notice) => (
-              <li>{notice}</li>
+              <li class="italic">{notice}</li>
             ))}
           </ul>
         </div>

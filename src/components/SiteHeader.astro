@@ -1,96 +1,39 @@
 ---
 import type { Location } from '../content/locations';
-import { X } from '@lucide/astro';
 interface Props {
   location?: Location;
-  showAboveSelector?: boolean;
-  hideLogo?: boolean;
-  hideLocationNav?: boolean;
 }
-const {
-  location,
-  showAboveSelector = false,
-  hideLogo = false,
-  hideLocationNav = false,
-} = Astro.props;
+const { location } = Astro.props;
 const menuId = `site-menu-${location?.id ?? 'landing'}`;
 ---
 
 <header
   data-site-header
-  class:list={[
-    'bg-transparent text-white fixed top-0 w-full',
-    showAboveSelector || !location ? 'z-60' : 'z-40',
-  ]}
+  class="bg-canvas/80 text-white fixed top-0 z-40 w-full"
 >
-  <div class="relative w-full page-shell">
-    <div class="w-full flex items-center justify-between gap-4 py-4 sm:py-5">
+  <div class="relative w-full container">
+    <div class="w-full flex items-center justify-between gap-4 py-4">
       <div>
-        {
-          location && (
-            <a
-              href="/"
-              data-site-logo
-              class:list={[
-                'inline-flex max-w-36 transition-opacity focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent',
-                hideLogo && 'pointer-events-none opacity-0',
-              ]}
-              aria-label="Piccola Nonna Pizza, startsida"
-            >
-              <img src={location.assets.logo.src} alt="" class="h-auto w-16" />
-            </a>
-          )
-        }
-      </div>
-      <div class="flex items-center gap-8 md:gap-10">
-        <nav
-          aria-label="Välj restaurang"
-          data-location-nav
-          class:list={[
-            'transition-opacity',
-            hideLocationNav && 'pointer-events-none opacity-0',
-          ]}
-        >
-          <ul class="flex items-center gap-4 text-sm font-medium">
-            <li>
-              <a
-                href="/"
-                aria-current={location?.id === 'pizza' ? 'page' : undefined}
-                class=`${location?.id === 'pizza' ? 'underline underline-offset-4' : ''} transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary`
-                >Pizzeria</a
-              >
-            </li>/<li>
-              <a
-                href="/cafe"
-                aria-current={location?.id === 'cafe' ? 'page' : undefined}
-                class="transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
-                >Café</a
-              >
-            </li>
-          </ul>
-        </nav>
         <button
           type="button"
           aria-label="Navigeringsmeny"
           aria-controls={menuId}
           aria-expanded="false"
           data-menu-toggle
-          class="focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+          class="group relative z-70 h-6 w-6 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="h-6 w-6"
-          >
-            <line x1="3" y1="12" x2="21" y2="12"></line>
-            <line x1="3" y1="6" x2="21" y2="6"></line>
-            <line x1="3" y1="18" x2="21" y2="18"></line>
-          </svg>
+          <span
+            aria-hidden="true"
+            class="absolute inset-x-0 top-1 h-px bg-current transition-transform duration-(--base-duration) ease-(--standard-ease) group-[.is-open]:translate-y-2 group-[.is-open]:rotate-45"
+          ></span>
+          <span
+            aria-hidden="true"
+            class="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-current transition-opacity duration-(--base-duration) ease-(--standard-ease) group-[.is-open]:opacity-0"
+          ></span>
+          <span
+            aria-hidden="true"
+            class="absolute inset-x-0 bottom-1 h-px bg-current transition-transform duration-(--base-duration) ease-(--standard-ease) group-[.is-open]:-translate-y-2 group-[.is-open]:-rotate-45"
+          ></span>
         </button>
 
         <nav
@@ -98,17 +41,8 @@ const menuId = `site-menu-${location?.id ?? 'landing'}`;
           aria-label="Navigering"
           aria-hidden="true"
           data-site-menu
-          class="fixed inset-y-0 left-0 z-60 flex h-svh w-[min(22rem,85vw)] -translate-x-full flex-col bg-black/60 p-5 text-white shadow-2xl transition-transform duration-(--base-duration) ease-(--standard-ease) sm:p-8 lg:left-auto lg:right-0 lg:translate-x-full"
+          class="fixed inset-y-0 left-0 z-60 flex h-svh w-[min(22rem,85vw)] -translate-x-full flex-col bg-black/60 p-5 text-white shadow-2xl transition-transform duration-(--base-duration) ease-(--standard-ease) sm:p-8"
         >
-          <div class="flex items-center justify-end">
-            <button
-              type="button"
-              aria-label="Stäng navigeringsmeny"
-              data-menu-close
-              class="focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
-              ><X size={28} stroke-width={1.5} aria-hidden="true" /></button
-            >
-          </div>
           <ul class="mt-16 flex flex-col gap-6 text-3xl font-display uppercase">
             <li>
               <a
@@ -134,6 +68,34 @@ const menuId = `site-menu-${location?.id ?? 'landing'}`;
           </ul>
         </nav>
       </div>
+      <div class="flex items-center gap-8 md:gap-10">
+        <nav
+          aria-label="Välj restaurang"
+          data-location-nav
+          class="transition-opacity"
+        >
+          <div
+            class="relative grid w-40 grid-cols-2 rounded-full bg-white/15 p-1 text-xs font-medium"
+          >
+            <span
+              aria-hidden="true"
+              class=`pointer-events-none absolute inset-y-1 left-1 w-[calc(50%-0.25rem)] rounded-full bg-primary transition-transform duration-(--base-duration) ease-(--standard-ease) ${location?.id === 'cafe' ? 'translate-x-full' : 'translate-x-0'}`
+            ></span>
+            <a
+              href="/"
+              aria-current={location?.id === 'pizza' ? 'page' : undefined}
+              class=`relative z-10 rounded-full px-2 py-1.5 text-center transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary ${location?.id === 'pizza' ? 'text-canvas' : 'text-white hover:text-primary'}`
+              >Pizzeria</a
+            >
+            <a
+              href="/cafe"
+              aria-current={location?.id === 'cafe' ? 'page' : undefined}
+              class=`relative z-10 rounded-full px-2 py-1.5 text-center transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary ${location?.id === 'cafe' ? 'text-canvas' : 'text-white hover:text-primary'}`
+              >Café</a
+            >
+          </div>
+        </nav>
+      </div>
     </div>
   </div>
 </header>
@@ -145,29 +107,22 @@ const menuId = `site-menu-${location?.id ?? 'landing'}`;
       const toggle =
         header.querySelector<HTMLButtonElement>('[data-menu-toggle]');
       const menu = header.querySelector<HTMLElement>('[data-site-menu]');
-      const close =
-        header.querySelector<HTMLButtonElement>('[data-menu-close]');
-
-      if (!toggle || !menu || !close) return;
+      if (!toggle || !menu) return;
 
       const setMenuOpen = (isOpen: boolean) => {
         menu.classList.toggle('-translate-x-full', !isOpen);
-        menu.classList.toggle('lg:translate-x-full', !isOpen);
         menu.setAttribute('aria-hidden', String(!isOpen));
         toggle.setAttribute('aria-expanded', String(isOpen));
-
-        if (isOpen) {
-          close.focus();
-        } else {
-          toggle.focus();
-        }
+        toggle.setAttribute(
+          'aria-label',
+          isOpen ? 'Stäng navigeringsmeny' : 'Navigeringsmeny',
+        );
+        toggle.classList.toggle('is-open', isOpen);
       };
 
       toggle.addEventListener('click', () => {
         setMenuOpen(toggle.getAttribute('aria-expanded') !== 'true');
       });
-
-      close.addEventListener('click', () => setMenuOpen(false));
 
       window.addEventListener('keydown', (event) => {
         if (

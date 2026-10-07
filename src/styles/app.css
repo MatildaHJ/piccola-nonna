@@ -1,15 +1,15 @@
 @import 'tailwindcss';
-@import './_tokens.scss';
+@import './_variables.scss';
 @import './base.scss';
 
 @theme inline {
-  --color-canvas: #151515;
-  --color-primary: #f29699;
-  --color-accent: #595959;
-  --color-accent-light: #a8a8a8;
-  --color-muted: var(--muted);
-  --font-display: var(--display-font);
-  --font-sans: var(--body-font);
+  --color-canvas: #1c1c1c;
+  --color-canvas-light: #2a2a2a;
+  --color-primary: #fb86a1;
+  --color-accent: #00aaad;
+  --color-muted: color-mix(in srgb, white 65%, #1c1c1c);
+  --font-display: 'Caprasimo', serif;
+  --font-sans: 'Sora', ui-sans-serif, system-ui, sans-serif;
 }
 
 @theme {

@@ -23,6 +23,14 @@
 }
 
 @font-face {
+  font-family: 'Caprasimo';
+  src: url('./fonts/Caprasimo.woff2') format('woff2');
+  font-display: swap;
+  font-style: normal;
+  font-weight: 400;
+}
+
+@font-face {
   font-family: 'Instrument Sans';
   src: url('./fonts/instrument-sans/InstrumentSans-Regular.woff2')
     format('woff2');
@@ -76,22 +84,61 @@
   font-weight: 600;
 }
 
-/* Core brand tokens. Add new colours only when a real UI need appears. */
-:root {
-  --canvas: #151515;
-  --primary: #f29699;
-  --accent: #595959;
-  --accent-light: #a8a8a8;
-  --muted: color-mix(in srgb, white 65%, var(--canvas));
-
-  --display-font: 'Platonick NF', serif;
-  --body-font: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
-
-  --page-width: 100rem;
-  --radius-small: 0.25rem;
-  --radius-medium: 0.75rem;
-  --soft-shadow: 0 0.75rem 2rem rgb(31 29 26 / 8%);
-  --standard-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
-  --fast-duration: 160ms;
-  --base-duration: 260ms;
+@font-face {
+  font-family: 'Sora';
+  src: url('./fonts/sora/Sora-Light.woff2') format('woff2');
+  font-display: swap;
+  font-style: normal;
+  font-weight: 300;
 }
+
+@font-face {
+  font-family: 'Sora';
+  src: url('./fonts/sora/Sora-Regular.woff2') format('woff2');
+  font-display: swap;
+  font-style: normal;
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'Sora';
+  src: url('./fonts/sora/Sora-Medium.woff2') format('woff2');
+  font-display: swap;
+  font-style: normal;
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: 'Sora';
+  src: url('./fonts/sora/Sora-SemiBold.woff2') format('woff2');
+  font-display: swap;
+  font-style: normal;
+  font-weight: 600;
+}
+@font-face {
+  font-family: 'Sora';
+  src: url('./fonts/sora/Sora-Bold.woff2') format('woff2');
+  font-display: swap;
+  font-style: normal;
+  font-weight: 700;
+}
+
+/* Core brand vsriables */
+$bg-canvas: #1c1c1c;
+$bg-light: #2a2a2a;
+$color-primary: #f994ac;
+$color-accent: #00aaad;
+$color-text: #fffeef;
+$color-muted: color-mix(in srgb, white 65%, $bg-canvas);
+
+$font-display: 'Caprasimo', serif;
+$font-body: 'Sora', ui-sans-serif, system-ui, sans-serif;
+
+$page-width: 100rem;
+
+$radius-small: 0.25rem;
+$radius-medium: 0.75rem;
+$soft-shadow: 0 0.75rem 2rem rgb(31 29 26 / 8%);
+$standard-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+$fast-duration: 160ms;
+$base-duration: 260ms;

@@ -29,9 +29,9 @@ Alternative considered: Next.js. It provides more application and server capabil
 
 ### Route and location model
 
-Use `/` for Pizza and `/cafe` for Cafe. Both routes consume a shared location-page composition and independently supplied content/assets. The root route includes an immediate, non-blocking choice between Pizza and Cafe that is compatible with Pizza remaining the primary domain destination.
+Use `/` for Pizza and `/cafe` for Cafe. Both routes consume a shared location-page composition and independently supplied content/assets. The root route is the direct Pizza landing experience, preserving Pizza as the primary domain destination. The shared header provides explicit links between the Pizza and Cafe routes.
 
-The location selector and Pizza content will be designed directly in code from the current visual direction, but essential Pizza content must remain present in the initial root document for SEO and no-delay usability. Each location page ends with a compact Google Maps treatment that overlaps the footer and provides an accessible link to that location's directions.
+Each location page ends with a compact Google Maps treatment that overlaps the footer and provides an accessible link to that location's directions.
 
 ### Content co-located in typed static modules
 
@@ -51,7 +51,7 @@ Use the supplied palette, Platonick NF display font, Instrument Sans body font, 
 
 ### Shared components and minimal client interactivity
 
-Model shared header, footer, Instagram section, layout, and location-selection behavior as reusable Astro components. Render menus and operational information statically. Add client-side JavaScript only to interactions that require it, such as a final Instagram carousel implementation. Animation should prefer CSS and must honor reduced-motion preferences.
+Model shared header, footer, Instagram section, and layout as reusable Astro components. Render menus and operational information statically. Add client-side JavaScript only to interactions that require it, such as a final Instagram carousel implementation. Animation should prefer CSS and must honor reduced-motion preferences.
 
 Alternative considered: a fully client-rendered application. It would reduce initial-content availability and add unnecessary JavaScript for primarily static content.
 
@@ -73,7 +73,7 @@ Generate route-level titles, descriptions, canonical URLs, social metadata, rest
 
 ## Risks / Trade-offs
 
-- [The root location chooser could obscure Pizza content or confuse crawlers] -> Keep Pizza content in the root document and treat the chooser as an immediate enhancement, not a separate splash-only route.
+- [Visitors need a clear way to move between locations] -> Keep direct, labelled Pizza and Cafe links in the shared header while preserving each location as a crawlable route.
 - [Tailwind tokens and SCSS variables can diverge] -> Define an explicit token-source approach during styling setup and document it in the README.
 - [Restaurant hours or menus become stale] -> Centralize static content and document the update workflow and build verification.
 - [Instagram API access, token expiry, privacy, and provider limits can interrupt the feed] -> Use the official/approved provider path, keep credentials only in Netlify environment variables, cache responses, and render a non-blocking fallback state.

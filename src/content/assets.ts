@@ -2,13 +2,14 @@ import type { ImageMetadata } from 'astro';
 
 import cafeLogo from '../images/logo-cafe.png';
 import pizzaLogo from '../images/logo-pizza.png';
-import cafeHero from '../images/location-cafe.png';
-import pizzaHero from '../images/pizza/nonna-pizza.jpg';
+import cafeHero from '../images/cafe/location-cafe.png';
+import pizzaHero from '../images/pizza/pizza-hero-copy.jpeg';
 import pizzaDetail from '../images/pizza/nonna-pizza2.jpeg';
 
 export type LocationAssets = {
   logo: ImageMetadata;
   hero: ImageMetadata;
+  heroText: string;
   detail: ImageMetadata;
   socialPreview: string;
 };
@@ -22,12 +23,14 @@ export const locationAssets = {
   pizza: {
     logo: pizzaLogo,
     hero: pizzaHero,
+    heroText: 'Äkta napolitansk pizza, handgjord med kärlek på Blekingegatan.',
     detail: pizzaDetail,
     socialPreview: '/pn-logo.png',
   },
   cafe: {
     logo: cafeLogo,
     hero: cafeHero,
+    heroText: 'Äkta napolitansk pizza, handgjord med kärlek på Blekingegatan.',
     detail: pizzaDetail,
     socialPreview: '/pn-logo.png',
   },

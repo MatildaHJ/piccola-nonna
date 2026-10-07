@@ -1,0 +1,32 @@
+---
+import { cafeLocation, pizzaLocation } from '../../content/locations';
+import type { Location } from '../../content/locations';
+
+interface Props {
+  location: Location;
+}
+
+const { location } = Astro.props;
+---
+
+<section class="relative group w-screen h-svh md:h-vh">
+  <div
+    class="absolute inset-0 bg-cover bg-center"
+    style={`background-image: linear-gradient(rgb(18 23 28 / 25%), rgb(18 23 28 / 90%)), url(${location.assets.hero.src})`}
+  >
+  </div>
+  <div
+    class="page-shell h-full flex flex-col items-center justify-center gap-9"
+  >
+    <h1 class="sr-only">
+      {location.name}
+    </h1>
+    <img
+      src={location.assets.logo.src}
+      alt=""
+      class="h-60 w-60 md:w-80 md:h-80 z-30"
+      aria-hidden="true"
+    />
+    <p class="text-lg z-30">{location.assets.heroText}</p>
+  </div>
+</section>

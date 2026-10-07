@@ -25,7 +25,7 @@
 
 - [x] 4.0 Inventory the supplied palette, fonts, favicon, Pizza and Cafe logos, selected photography, Pizza menu, location details, Instagram handles, and temporary Cafe/menu-hours states; verify every item has an intended project location before page construction
 - [ ] 4.1 Build the reusable page layout, header, footer, and responsive navigation from the current visual direction; verify they render consistently on `/` and `/cafe`
-- [x] 4.2 Implement the immediate logo-and-location selector at the root experience; verify Pizza and Cafe choices are keyboard- and touch-operable with no timed delay
+- [x] 4.2 Implement direct Pizza and Cafe landing routes with header-based location navigation; verify `/` renders Pizza immediately and `/cafe` renders Cafe directly
 - [x] 4.3 Implement the Pizza root route using Pizza-specific logo, imagery, menu, hours, address, and first-come-first-served/no-reservations policy; verify all essential operational information is rendered without client-side scripts
 - [x] 4.4 Implement the `/cafe` route using Cafe-specific logo, imagery, menu, hours, and address; verify direct navigation to `/cafe` renders its complete essential content
 - [ ] 4.5 Implement the visual details and responsive layouts from the current palette, fonts, logos, and selected imagery, including a compact Google Maps treatment overlapping the footer; verify layouts at narrow mobile, tablet, and desktop viewport widths without horizontal scrolling and that each map opens the correct directions
@@ -35,7 +35,7 @@
 - [ ] 5.1 Generate location-specific titles, descriptions, canonical URLs, social metadata, and supplied share images; verify the root and `/cafe` expose distinct metadata in the built output
 - [ ] 5.2 Add location-specific restaurant structured data using available name, address, hours, and public URL values; verify it is present in each route's generated HTML
 - [ ] 5.3 Generate the sitemap and `public/robots.txt` from the final public site URL; verify the sitemap lists `/` and `/cafe` and robots.txt permits public crawling and references the sitemap
-- [ ] 5.4 Add accessible semantics, alt text, focus states, and keyboard behavior for navigation, location selection, and Instagram controls; verify key flows work with keyboard-only navigation
+- [ ] 5.4 Add accessible semantics, alt text, focus states, and keyboard behavior for navigation and Instagram controls; verify key flows work with keyboard-only navigation
 - [ ] 5.5 Implement Figma-specified motion with CSS-first transitions and reduced-motion handling; verify decorative motion is suppressed while navigation and content remain accessible with reduced motion enabled
 - [ ] 5.6 Optimize supplied images and client-side assets; verify the production build succeeds and route content remains readable before client-side JavaScript loads
 - [ ] 5.7 Run the documented formatting, linting, type, build, metadata, responsive, and Netlify-preview checks; verify outstanding issues are resolved before production deployment

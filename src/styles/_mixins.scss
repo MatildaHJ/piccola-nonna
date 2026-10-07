@@ -1,4 +1,5 @@
 @use 'sass:map';
+@use '../styles/variables' as *;
 
 $breakpoints: (
   'sm': 40rem,
@@ -7,20 +8,20 @@ $breakpoints: (
   'xl': 80rem,
 );
 
-@mixin up($breakpoint) {
+@mixin down($breakpoint) {
   $width: map.get($breakpoints, $breakpoint);
 
   @if $width == null {
     @error "Unknown breakpoint: #{$breakpoint}";
   }
 
-  @media (min-width: $width) {
+  @media (max-width: $width) {
     @content;
   }
 }
 
 @mixin focus-ring {
-  outline: 2px solid var(--accent);
+  outline: 2px solid $color-accent;
   outline-offset: 3px;
 }
 

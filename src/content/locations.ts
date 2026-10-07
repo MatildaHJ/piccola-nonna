@@ -15,6 +15,15 @@ export type MenuSection = {
   items: MenuItem[];
 };
 
+export type LocationInfoCard = {
+  title: string;
+  content: string[];
+  link?: {
+    href: string;
+    label: string;
+  };
+};
+
 export type Location = {
   id: 'pizza' | 'cafe';
   name: string;
@@ -30,8 +39,10 @@ export type Location = {
   openingHours: OpeningHour[];
   menu: MenuSection[];
   menuStatus?: string;
+  menuNote?: string;
   notices?: string[];
   visitPolicy?: string;
+  infoCards: LocationInfoCard[];
   assets: LocationAssets;
 };
 
@@ -73,7 +84,7 @@ export const locations = {
           {
             name: 'Jammin',
             description:
-              'Tomat, Fior di Latte, Pecorino, Seitan, Vitlök & Chilisylt, Basilika, Olivolja',
+              'Tomat, Fior di Latte, Pecorino, Seitan, Vitlök- & Chilisylt, Basilika, Olivolja',
           },
           {
             name: 'Napolitanish',
@@ -88,27 +99,49 @@ export const locations = {
           {
             name: 'Patata',
             description:
-              'Créme Fraiche, Pecorino, Fior di Latte, Rosmarin, Potatis, Tomatpesto, Olivolja',
+              'Crème fraîche, Pecorino, Fior di Latte, Rosmarin, Potatis, Tomatpesto, Olivolja',
           },
           {
             name: 'Al Funghi',
             description:
-              'Créme Fraiche, Pecorino, Fior di Latte, Champinjoner, Persilja, Vitlöksolja',
+              'Crème fraîche, Pecorino, Fior di Latte, Champinjoner, Persilja, Vitlöksolja',
           },
           {
             name: 'Blue',
             description:
-              'Créme Fraiche, Pecorino, Fior di Latte, Gorgonzola, Päron, Valnötter, Honung, Olivolja',
+              'Crème fraîche, Pecorino, Fior di Latte, Gorgonzola, Päron, Valnötter, Honung, Olivolja',
           },
         ],
       },
     ],
-    notices: [
-      'Vi har ingen glutenfri pizzabotten',
-      'Vi erbjuder ingen hemleverans',
-    ],
+    menuStatus: 'Alla pizzor går att få veganska eller vegetariska.',
+    menuNote: 'En bit av Neapel',
+    notices: ['Vi erbjuder inte glutenfri pizzabotten eller hemleverans.'],
     visitPolicy:
       'Begränsat antal pizzor och platser. Vi tar inte bokningar – först till kvarn gäller.',
+    infoCards: [
+      {
+        title: 'Hitta hit',
+        content: ['Blekingegatan 36', 'Södermalm, Stockholm'],
+        link: {
+          href: 'https://www.google.com/maps/dir/?api=1&destination=Blekingegatan%2036%2C%20S%C3%B6dermalm%2C%20Stockholm',
+          label: 'Vägbeskrivning',
+        },
+      },
+      {
+        title: 'Öppettider',
+        content: [
+          'Måndag–tisdag: Stängt',
+          'Onsdag–söndag: Öppettider kommer snart',
+        ],
+      },
+      {
+        title: 'Bra att veta',
+        content: [
+          'Begränsat antal pizzor och platser. Vi tar inte bokningar – först till kvarn gäller.',
+        ],
+      },
+    ],
     assets: locationAssets.pizza,
   },
   cafe: {
@@ -125,8 +158,33 @@ export const locations = {
     instagramUrl: 'https://www.instagram.com/lapiccolanonnacafe/',
     intro: 'Gnocchi och goda stunder i Slakthusområdet.',
     openingHours: placeholderHours,
-    menu: [],
+    menu: [
+      { title: 'Gnocchi', items: [] },
+      { title: 'Sandwiches', items: [] },
+    ],
     menuStatus: 'Menyn kommer snart.',
+    menuNote: 'Gnocchi och sandwiches, direkt från köket.',
+    infoCards: [
+      {
+        title: 'Hitta hit',
+        content: ['Fållan 1B', 'Slakthusområdet, Stockholm'],
+        link: {
+          href: 'https://www.google.com/maps/dir/?api=1&destination=F%C3%A5llan%201B%2C%20Slakthusomr%C3%A5det%2C%20Stockholm',
+          label: 'Vägbeskrivning',
+        },
+      },
+      {
+        title: 'Öppettider',
+        content: [
+          'Måndag–tisdag: Stängt',
+          'Onsdag–söndag: Öppettider kommer snart',
+        ],
+      },
+      {
+        title: 'Meny',
+        content: ['Gnocchi och sandwiches. Menyn kommer snart.'],
+      },
+    ],
     assets: locationAssets.cafe,
   },
 } satisfies Record<'pizza' | 'cafe', Location>;
