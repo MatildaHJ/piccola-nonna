@@ -1,12 +1,18 @@
 @import 'tailwindcss';
-@import './_variables.scss';
-@import './base.scss';
+
+:root {
+  --base-duration: 260ms;
+  --standard-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
 
 @theme inline {
   --color-canvas: #1c1c1c;
   --color-canvas-light: #2a2a2a;
   --color-primary: #fb86a1;
+  --color-primary-light: #fff3f6;
+  --color-primary-dark: #a71437;
   --color-accent: #00aaad;
+  --color-text: #fffeef;
   --color-muted: color-mix(in srgb, white 65%, #1c1c1c);
   --font-display: 'Caprasimo', serif;
   --font-sans: 'Sora', ui-sans-serif, system-ui, sans-serif;

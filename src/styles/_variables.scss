@@ -127,9 +127,23 @@
 $bg-canvas: #1c1c1c;
 $bg-light: #2a2a2a;
 $color-primary: #f994ac;
+$color-primary-light: #fff3f6;
+$color-primary-dark: #f4446d;
 $color-accent: #00aaad;
 $color-text: #fffeef;
 $color-muted: color-mix(in srgb, white 65%, $bg-canvas);
+$radial-gradient-pink: radial-gradient(
+  circle at 50% 115%,
+  $color-primary-light 0%,
+  rgb(249, 187, 202) 5%,
+  $color-primary 35%,
+  #f47593 85%,
+  #f36b8a 100%
+);
+$neon-shadow:
+  0 0 0.5rem rgba(253, 174, 193, 0.75),
+  0 0 0.75rem rgba(244, 68, 109, 0.75),
+  0 0 1.5rem rgba(244, 68, 109, 0.2);
 
 $font-display: 'Caprasimo', serif;
 $font-body: 'Sora', ui-sans-serif, system-ui, sans-serif;

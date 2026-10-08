@@ -7,6 +7,8 @@ interface Props {
 }
 
 const { location } = Astro.props;
+const alternateLocation =
+  location.id === 'pizza' ? cafeLocation : pizzaLocation;
 ---
 
 <section class="relative group w-screen h-svh md:h-vh">
@@ -24,9 +26,22 @@ const { location } = Astro.props;
     <img
       src={location.assets.logo.src}
       alt=""
-      class="h-60 w-60 md:w-80 md:h-80 z-30"
+      class="h-60 w-60 md:w-85 md:h-85 z-30"
       aria-hidden="true"
     />
-    <p class="text-lg z-30">{location.assets.heroText}</p>
+    <p class="z-30 font-light text-lg md:text-xl max-w-150 text-center">
+      {location.assets.heroText}
+    </p>
+    <div class="flex gap-4">
+      <button class="button button--transparent text-sm md:text-base z-30"
+        >Meny</button
+      >
+      <a
+        href={alternateLocation.route}
+        class="button button--pink text-sm md:text-base z-30"
+        >La Piccola Nonna {alternateLocation.shortName}
+        <span class="button__arrow" aria-hidden="true">→</span></a
+      >
+    </div>
   </div>
 </section>

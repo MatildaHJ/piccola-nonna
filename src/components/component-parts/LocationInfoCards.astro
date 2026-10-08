@@ -8,11 +8,14 @@ interface Props {
 const { location } = Astro.props;
 ---
 
-<section class="bg-canvas py-16 sm:py-24" aria-label="Praktisk information">
-  <div class="page-shell grid gap-4 md:grid-cols-3 md:gap-6">
+<section
+  class="bg-canvas-light py-16 sm:py-24"
+  aria-label="Praktisk information"
+>
+  <div class="container grid gap-4 md:grid-cols-3 md:gap-6">
     {
       location.infoCards.map((card) => (
-        <article class="flex min-h-56 flex-col bg-canvas-light p-6 sm:p-8">
+        <article class="flex min-h-56 flex-col bg-canvas p-6 sm:p-8">
           <h2 class="font-display text-3xl leading-none">{card.title}</h2>
           <div class="mt-6 space-y-2 text-sm leading-6 text-muted">
             {card.content.map((line) => (

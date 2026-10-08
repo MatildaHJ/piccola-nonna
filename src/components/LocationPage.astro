@@ -15,10 +15,14 @@ const { location } = Astro.props;
   <Hero location={location} />
   <SiteHeader {location} />
   <main>
-    <section class="bg-canvas py-16 sm:py-24" aria-labelledby="menu-heading">
+    <section
+      data-header-background-trigger
+      class="bg-canvas py-16 sm:py-24"
+      aria-labelledby="menu-heading"
+    >
       <Menu location={location} />
     </section>
     <LocationInfoCards location={location} />
   </main>
-  <SiteFooter />
+  <SiteFooter {location} />
 </div>

@@ -51,6 +51,50 @@ a {
   text-underline-offset: 0.18em;
 }
 
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.85rem 2.25rem;
+  border-radius: 36px;
+  color: $bg-canvas;
+  cursor: pointer;
+  font-weight: 500;
+  box-shadow: 0 0 0 rgb(244 68 109 / 0%);
+  transition: all $base-duration $standard-ease;
+
+  &:is(:hover, :focus-visible) {
+    box-shadow: $neon-shadow;
+    transform: translateY(-0.125rem);
+  }
+
+  &__arrow {
+    margin-left: 0.625rem;
+    font-size: 1.5em;
+    font-weight: 300;
+    line-height: 1;
+    transition: transform $base-duration $standard-ease;
+  }
+
+  &:is(:hover, :focus-visible) &__arrow {
+    transform: translateX(0.375rem);
+  }
+
+  &--pink {
+    border: 1px solid transparent;
+    background: $radial-gradient-pink;
+
+    &:is(:hover, :focus-visible) {
+      border-color: white;
+    }
+  }
+
+  &--transparent {
+    border: 1px solid $color-primary;
+    color: $color-text;
+  }
+}
+
 :focus-visible {
   outline: 0.125rem solid $color-accent;
   outline-offset: 0.2rem;
