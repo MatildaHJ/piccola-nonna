@@ -5,6 +5,7 @@ import SiteHeader from './SiteHeader.astro';
 import Menu from './component-parts/Menu.astro';
 import Hero from './component-parts/Hero.astro';
 import LocationInfoCards from './component-parts/LocationInfoCards.astro';
+import GoogleReviews from './GoogleReviews.astro';
 interface Props {
   location: Location;
 }
@@ -22,6 +23,7 @@ const { location } = Astro.props;
     >
       <Menu location={location} />
     </section>
+    {location.id === 'pizza' && <GoogleReviews />}
     <LocationInfoCards location={location} />
   </main>
   <SiteFooter {location} />

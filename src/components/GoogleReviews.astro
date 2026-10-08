@@ -1,0 +1,181 @@
+---
+// This component intentionally loads reviews in the browser through the Netlify
+// Function. The API key therefore remains server-side and review content is not
+// embedded in the static build.
+---
+
+<section
+  hidden
+  data-google-reviews
+  class="bg-canvas-light py-16 sm:py-24"
+  aria-labelledby="google-reviews-heading"
+>
+  <div class="page-shell">
+    <div
+      class="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between"
+    >
+      <div>
+        <p
+          class="text-xs font-semibold uppercase tracking-[0.16em] text-primary"
+        >
+          Google Maps
+        </p>
+        <h2
+          id="google-reviews-heading"
+          class="mt-3 font-display text-5xl leading-none sm:text-6xl"
+        >
+          Gästernas ord
+        </h2>
+      </div>
+      <a
+        data-google-reviews-link
+        target="_blank"
+        rel="noreferrer"
+        class="hidden w-fit text-sm font-medium text-primary transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+        >Läs alla recensioner <span aria-hidden="true">↗</span></a
+      >
+    </div>
+
+    <p data-google-reviews-rating class="mt-6 text-lg"></p>
+    <p class="mt-2 text-sm text-muted">
+      Recensioner visas i relevansordning från Google Maps.
+    </p>
+    <div data-google-reviews-list class="mt-10 grid gap-4 md:grid-cols-3"></div>
+  </div>
+</section>
+
+<script>
+  type GoogleReview = {
+    rating?: number;
+    text?: string;
+    relativePublishTimeDescription?: string;
+    googleMapsUri?: string;
+    flagContentUri?: string;
+    author?: {
+      displayName?: string;
+      uri?: string;
+      photoUri?: string;
+    };
+  };
+
+  type GoogleReviewsResponse = {
+    rating?: number;
+    userRatingCount?: number;
+    reviewsUri?: string;
+    reviews: GoogleReview[];
+  };
+
+  const section = document.querySelector<HTMLElement>('[data-google-reviews]');
+  const list = document.querySelector<HTMLElement>(
+    '[data-google-reviews-list]',
+  );
+  const rating = document.querySelector<HTMLElement>(
+    '[data-google-reviews-rating]',
+  );
+  const reviewsLink = document.querySelector<HTMLAnchorElement>(
+    '[data-google-reviews-link]',
+  );
+
+  const createReviewCard = (review: GoogleReview) => {
+    const article = document.createElement('article');
+    article.className = 'flex min-h-64 flex-col bg-canvas p-6';
+
+    const author = document.createElement('div');
+    author.className = 'flex items-center gap-3';
+
+    if (review.author?.photoUri) {
+      const avatar = document.createElement('img');
+      avatar.src = review.author.photoUri;
+      avatar.alt = '';
+      avatar.className = 'size-10 rounded-full';
+      author.append(avatar);
+    }
+
+    const authorText = document.createElement(review.author?.uri ? 'a' : 'p');
+    authorText.textContent = review.author?.displayName ?? 'Google-användare';
+    authorText.className = 'text-sm font-medium';
+
+    if (authorText instanceof HTMLAnchorElement && review.author?.uri) {
+      authorText.href = review.author.uri;
+      authorText.target = '_blank';
+      authorText.rel = 'noreferrer';
+    }
+
+    author.append(authorText);
+    article.append(author);
+
+    const stars = document.createElement('p');
+    stars.className = 'mt-6 text-primary';
+    stars.setAttribute('aria-label', `${review.rating ?? 0} av 5 stjärnor`);
+    stars.textContent = '★'.repeat(Math.round(review.rating ?? 0));
+    article.append(stars);
+
+    if (review.text) {
+      const text = document.createElement('p');
+      text.className = 'mt-4 text-sm leading-6 text-muted';
+      text.textContent = review.text;
+      article.append(text);
+    }
+
+    const footer = document.createElement('div');
+    footer.className =
+      'mt-auto flex items-end justify-between gap-4 pt-6 text-xs text-muted';
+
+    if (review.relativePublishTimeDescription) {
+      const published = document.createElement('p');
+      published.textContent = review.relativePublishTimeDescription;
+      footer.append(published);
+    }
+
+    if (review.googleMapsUri) {
+      const source = document.createElement('a');
+      source.href = review.googleMapsUri;
+      source.target = '_blank';
+      source.rel = 'noreferrer';
+      source.textContent = 'Visa på Google Maps ↗';
+      source.className = 'text-primary transition-colors hover:text-white';
+      footer.append(source);
+    }
+
+    if (review.flagContentUri) {
+      const report = document.createElement('a');
+      report.href = review.flagContentUri;
+      report.target = '_blank';
+      report.rel = 'noreferrer';
+      report.textContent = 'Rapportera';
+      report.className = 'text-primary transition-colors hover:text-white';
+      footer.append(report);
+    }
+
+    article.append(footer);
+    return article;
+  };
+
+  const loadReviews = async () => {
+    if (!section || !list || !rating || !reviewsLink) return;
+
+    try {
+      const response = await fetch('/.netlify/functions/google-reviews');
+      if (!response.ok) return;
+
+      const data = (await response.json()) as GoogleReviewsResponse;
+      if (!data.reviews?.length) return;
+
+      if (typeof data.rating === 'number') {
+        rating.textContent = `${data.rating.toFixed(1)} av 5 stjärnor${data.userRatingCount ? ` · ${data.userRatingCount} recensioner` : ''}`;
+      }
+
+      if (data.reviewsUri) {
+        reviewsLink.href = data.reviewsUri;
+        reviewsLink.classList.remove('hidden');
+      }
+
+      data.reviews.forEach((review) => list.append(createReviewCard(review)));
+      section.hidden = false;
+    } catch {
+      // The site remains clean when the function is unavailable locally or Google is down.
+    }
+  };
+
+  void loadReviews();
+</script>

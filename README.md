@@ -32,6 +32,21 @@ npm run build
 npm run preview
 ```
 
+## Google reviews (Pizza only)
+
+The Pizza page loads reviews at runtime through `netlify/functions/google-reviews.mjs`. It uses the current Google Places API (New) Place Details endpoint, keeping the API key out of the browser and avoiding static caching of Google review content.
+
+To enable it:
+
+1. Create or select a Google Cloud project with billing enabled, then enable **Places API (New)**.
+2. Create a restricted API key that can call only Places API (New).
+3. Find the Pizza location's Google Place ID and set these environment variables in Netlify:
+   - `GOOGLE_PLACES_API_KEY`
+   - `GOOGLE_PIZZA_PLACE_ID`
+4. Deploy, then verify `/.netlify/functions/google-reviews` returns data.
+
+For local function testing, add the variables to `.env` and run the site with Netlify's local development command rather than `npm run dev`.
+
 `npm run build` generates the static production output in `dist/`.
 
 ## Project structure
@@ -76,4 +91,4 @@ In Netlify's project settings, set `NODE_VERSION` to `22.23.2` before the first 
 
 ## Environment variables
 
-The initial site has no required environment variables. Future Instagram credentials belong in Netlify environment-variable settings and in a local uncommitted `.env` file for development. Never commit credentials; `.env*` is ignored by Git and `.env.example` is reserved for safe variable-name documentation.
+The initial site has no required environment variables. Future Instagram credentials belong in Netlify environment-variable settings and in a local uncommitted `.env` file for development. Never commit credentials; `.env*` is ignored by Git.
