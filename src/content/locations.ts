@@ -17,7 +17,7 @@ export type MenuSection = {
 
 export type LocationInfoCard = {
   title: string;
-  content: string[];
+  content: (string | { text: string; href?: string }[])[];
   link?: {
     href: string;
     label: string;
@@ -62,8 +62,8 @@ export const locations = {
     locality: 'Södermalm, Stockholm',
     mapUrl:
       'https://www.google.com/maps/dir/?api=1&destination=Blekingegatan%2036%2C%20S%C3%B6dermalm%2C%20Stockholm',
-    instagramHandle: 'lapiccolanonnapiza',
-    instagramUrl: 'https://www.instagram.com/lapiccolanonnapiza/',
+    instagramHandle: 'lapiccolanonnapizza',
+    instagramUrl: 'https://www.instagram.com/lapiccolanonnapizza/',
     intro:
       'Vegetarisk och vegansk napolitansk pizza, bakad i små upplagor på Södermalm.',
     openingHours: placeholderHours,
@@ -121,24 +121,41 @@ export const locations = {
       'Begränsat antal pizzor och platser. Vi tar inte bokningar – först till kvarn gäller.',
     infoCards: [
       {
-        title: 'Hitta hit',
-        content: ['Blekingegatan 36', 'Södermalm, Stockholm'],
-        link: {
-          href: 'https://www.google.com/maps/dir/?api=1&destination=Blekingegatan%2036%2C%20S%C3%B6dermalm%2C%20Stockholm',
-          label: 'Vägbeskrivning',
-        },
-      },
-      {
-        title: 'Öppettider',
+        title: 'Öppet',
         content: [
-          'Måndag–tisdag: Stängt',
-          'Onsdag–söndag: Öppettider kommer snart',
+          'Ons - Sön 15:00-20:30 ( Eller tills degen är slut )',
+          'Öppettiderna kan variera och endast drop in på borden.',
+          [
+            { text: 'Håll koll på våra sociala medier ' },
+            {
+              text: 'Instagram',
+              href: 'https://www.instagram.com/lapiccolanonnapizza/',
+            },
+            { text: ' och ' },
+            {
+              text: 'Facebook',
+              href: 'https://www.facebook.com/lapiccolanonnapizza/',
+            },
+          ],
         ],
       },
       {
-        title: 'Bra att veta',
+        title: 'Paxa pizza',
         content: [
-          'Begränsat antal pizzor och platser. Vi tar inte bokningar – först till kvarn gäller.',
+          'Du kan säkra din pizza genom att komma in till oss under våra öppettider och boka deg. ',
+          'Vid större beställningar (fler än 6), maila med framförhållning:',
+          [
+            {
+              text: 'lapiccolanonna@gmail.com',
+              href: 'mailto:lapiccolanonna@gmail.com',
+            },
+          ],
+        ],
+      },
+      {
+        title: 'Vi älskar hundar',
+        content: [
+          'Din gulliga hund är välkommen hos oss. Lämna dina stökiga barn hemma. Vi har inga barnstolar av en anledning.',
         ],
       },
     ],

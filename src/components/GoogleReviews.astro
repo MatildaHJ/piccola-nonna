@@ -59,13 +59,6 @@ const isDevelopment = import.meta.env.DEV;
           </span>
         </h2>
       </div>
-      <a
-        data-google-reviews-link
-        target="_blank"
-        rel="noreferrer"
-        class="hidden w-fit text-sm font-medium text-primary transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
-        >Läs alla recensioner <span aria-hidden="true">↗</span></a
-      >
     </div>
 
     <div
@@ -145,15 +138,12 @@ const isDevelopment = import.meta.env.DEV;
     rating?: number;
     text?: string;
     relativePublishTimeDescription?: string;
-    googleMapsUri?: string;
-    flagContentUri?: string;
     author?: { displayName?: string; uri?: string; photoUri?: string };
   };
 
   type GoogleReviewsResponse = {
     rating?: number;
     userRatingCount?: number;
-    reviewsUri?: string;
     reviews: GoogleReview[];
   };
 
@@ -169,9 +159,6 @@ const isDevelopment = import.meta.env.DEV;
   );
   const reviewTemplate = document.querySelector<HTMLTemplateElement>(
     '[data-google-review-template]',
-  );
-  const reviewsLink = document.querySelector<HTMLAnchorElement>(
-    '[data-google-reviews-link]',
   );
   const dots = document.querySelector<HTMLElement>(
     '[data-google-reviews-dots]',
@@ -230,6 +217,36 @@ const isDevelopment = import.meta.env.DEV;
       list?.querySelectorAll<HTMLElement>('[data-google-review-slide]') ?? [],
     );
 
+  const updateExpandButtons = () => {
+    getSlides().forEach((slide) => {
+      const text = slide.querySelector<HTMLElement>('[data-review-text]');
+      const button = slide.querySelector<HTMLButtonElement>(
+        '[data-review-expand]',
+      );
+      if (!text || !button || button.getAttribute('aria-expanded') === 'true')
+        return;
+      button.hidden = text.scrollHeight <= text.clientHeight + 1;
+    });
+  };
+
+  window.addEventListener('resize', updateExpandButtons);
+  void document.fonts.ready.then(updateExpandButtons);
+  list?.addEventListener('click', (event) => {
+    if (!(event.target instanceof Element)) return;
+    const button = event.target.closest<HTMLButtonElement>(
+      '[data-review-expand]',
+    );
+    const text = button
+      ?.closest('article')
+      ?.querySelector<HTMLElement>('[data-review-text]');
+    if (!button || !text) return;
+    const expanded = button.getAttribute('aria-expanded') !== 'true';
+    button.setAttribute('aria-expanded', String(expanded));
+    button.textContent = expanded ? 'Visa mindre' : 'Läs mer';
+    text.classList.toggle('line-clamp-4', !expanded);
+    requestParallaxUpdate();
+  });
+
   const showSlide = (index: number) => {
     const slides = getSlides();
     if (!slides.length) return;
@@ -237,7 +254,18 @@ const isDevelopment = import.meta.env.DEV;
     slides.forEach((slide, slideIndex) => {
       const isActive = slideIndex === activeIndex;
       slide.setAttribute('aria-hidden', String(!isActive));
+      slide.inert = !isActive;
+      slide.querySelector('[data-review-text]')?.classList.add('line-clamp-4');
+      const button = slide.querySelector<HTMLButtonElement>(
+        '[data-review-expand]',
+      );
+      if (button) {
+        button.setAttribute('aria-expanded', 'false');
+        button.textContent = 'Läs mer';
+      }
     });
+    window.requestAnimationFrame(updateExpandButtons);
+    requestParallaxUpdate();
     if (list) list.style.transform = `translateX(-${activeIndex * 100}%)`;
     dots
       ?.querySelectorAll<HTMLButtonElement>('[data-google-reviews-dot]')
@@ -275,22 +303,6 @@ const isDevelopment = import.meta.env.DEV;
     article.querySelector<HTMLElement>('[data-review-date-separator]')!.hidden =
       !review.relativePublishTimeDescription;
 
-    const links = article.querySelector<HTMLElement>('[data-review-links]')!;
-    const source = article.querySelector<HTMLAnchorElement>(
-      '[data-review-source]',
-    )!;
-    const report = article.querySelector<HTMLAnchorElement>(
-      '[data-review-report]',
-    )!;
-    if (review.googleMapsUri) {
-      source.href = review.googleMapsUri;
-      source.hidden = false;
-    }
-    if (review.flagContentUri) {
-      report.href = review.flagContentUri;
-      report.hidden = false;
-    }
-    links.hidden = !review.googleMapsUri && !review.flagContentUri;
     return article;
   };
 
@@ -319,7 +331,7 @@ const isDevelopment = import.meta.env.DEV;
   showSlide(0);
 
   const loadReviews = async () => {
-    if (!section || !list || !rating || !reviewsLink || !reviewTemplate) return;
+    if (!section || !list || !rating || !reviewTemplate) return;
     try {
       const response = await fetch('/.netlify/functions/google-reviews');
       if (!response.ok) return;
@@ -330,10 +342,6 @@ const isDevelopment = import.meta.env.DEV;
       }
       if (reviewCount && typeof data.userRatingCount === 'number') {
         reviewCount.textContent = `${data.userRatingCount} recensioner`;
-      }
-      if (data.reviewsUri) {
-        reviewsLink.href = data.reviewsUri;
-        reviewsLink.classList.remove('hidden');
       }
       list.replaceChildren(...data.reviews.map(createReviewCard));
       activeIndex = 0;

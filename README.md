@@ -36,6 +36,8 @@ npm run preview
 
 The Pizza page loads reviews at runtime through `netlify/functions/google-reviews.mjs`. It uses the current Google Places API (New) Place Details endpoint, keeping the API key out of the browser and avoiding static caching of Google review content.
 
+The carousel displays every review returned by Places, which provides at most five reviews per place. Showing eight or more requires a different source, such as the Google Business Profile reviews API with authorized access to the verified restaurant profile.
+
 To enable it:
 
 1. Create or select a Google Cloud project with billing enabled, then enable **Places API (New)**.

@@ -43,7 +43,8 @@ export default async (request) => {
   }
 
   const place = await response.json();
-  const reviews = Array.isArray(place.reviews) ? place.reviews.slice(0, 3) : [];
+  // Places returns at most five reviews; show every review it provides.
+  const reviews = Array.isArray(place.reviews) ? place.reviews : [];
 
   return Response.json(
     {

@@ -1,0 +1,147 @@
+---
+const mentions = [
+  {
+    brand: 'Falstaff',
+    prefix: '94 poäng i',
+    logo: '/images/press/falstaff.svg',
+    href: 'https://www.falstaff.com/nordics/streetfood/la-piccola-nonna-pizza',
+  },
+  {
+    brand: 'Elle mat&vin',
+    prefix: 'Omnämnda i',
+    logo: '/images/press/elle.png',
+    href: '',
+  },
+  {
+    brand: 'Vegomagasinet',
+    prefix: 'Favoritpizza hos',
+    logo: '/images/press/vego.svg',
+    href: 'https://vegomagasinet.se/lista-basta-vegomaten-i-stockholm#h-italienskt-amp-pizza',
+  },
+  {
+    brand: 'Vagabond',
+    prefix: '8 pizzerior att ha koll på',
+    logo: '/images/press/vagabond.svg',
+    href: 'https://www.vagabond.se/europa/sverige/napolitansk-pizza-i-stockholm-8-pizzerior-att-halla-koll-pa',
+  },
+  {
+    brand: 'Café',
+    prefix: '12 italienska favoriter i',
+    logo: '/images/press/cafe.png',
+    href: 'https://www.cafe.se/12-italienska-restauranger-i-stockholm/',
+  },
+  {
+    brand: 'HappyCow',
+    prefix: 'Top Rated på',
+    logo: '/images/press/happycow.svg',
+    href: 'https://www.happycow.net/reviews/la-piccola-nonna-pizza-stockholm-230215?page=2',
+  },
+];
+---
+
+<section
+  data-press-mentions
+  class="flex h-37.5 flex-col justify-center overflow-hidden bg-primary text-canvas"
+  aria-labelledby="press-mentions-heading"
+>
+  <div class="container flex w-full items-center justify-between">
+    <h2 id="press-mentions-heading" class="sr-only">Omnämnda i</h2>
+  </div>
+  <div class="press-viewport">
+    <div class="press-track">
+      {
+        [false, true].map((duplicate) => (
+          <ul
+            class="press-group"
+            aria-hidden={duplicate ? 'true' : undefined}
+            inert={duplicate}
+          >
+            {mentions.map((mention) => (
+              <li>
+                <a
+                  href={mention.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  class="flex w-56 flex-col items-start gap-3 rounded-sm p-2 text-center transition-opacity hover:opacity-70 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-canvas"
+                >
+                  <span class="text-xs">{mention.prefix}</span>
+                  <img
+                    src={mention.logo}
+                    alt={mention.brand}
+                    class="h-9 w-auto object-contain brightness-0"
+                    width="160"
+                    height="36"
+                  />
+                </a>
+              </li>
+            ))}
+          </ul>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  document
+    .querySelectorAll<HTMLElement>('[data-press-mentions]')
+    .forEach((section) => {
+      const button =
+        section.querySelector<HTMLButtonElement>('[data-press-pause]');
+      button?.addEventListener('click', () => {
+        const paused = button.getAttribute('aria-pressed') !== 'true';
+        section.dataset.paused = String(paused);
+        button.setAttribute('aria-pressed', String(paused));
+        button.setAttribute(
+          'aria-label',
+          paused ? 'Starta logotypernas rörelse' : 'Pausa logotypernas rörelse',
+        );
+        button.textContent = paused ? 'Spela' : 'Pausa';
+      });
+    });
+</script>
+
+<style>
+  .press-track {
+    display: flex;
+    width: max-content;
+    animation: press-scroll 40s linear infinite;
+  }
+
+  .press-group {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 3rem;
+    min-width: 100vw;
+    padding-inline: 1.5rem;
+    flex-shrink: 0;
+  }
+
+  [data-press-mentions]:hover .press-track,
+  [data-press-mentions]:focus-within .press-track,
+  [data-press-mentions][data-paused='true'] .press-track {
+    animation-play-state: paused;
+  }
+
+  @keyframes press-scroll {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .press-viewport {
+      overflow-x: auto;
+    }
+
+    .press-track {
+      animation: none;
+    }
+
+    .press-group[aria-hidden='true'],
+    [data-press-pause] {
+      display: none;
+    }
+  }
+</style>

@@ -12,14 +12,45 @@ const { location } = Astro.props;
   class="bg-canvas-light py-16 sm:py-24"
   aria-label="Praktisk information"
 >
-  <div class="container grid gap-4 md:grid-cols-3 md:gap-6">
+  <div class="container grid gap-6 md:grid-cols-3 md:gap-10">
     {
       location.infoCards.map((card) => (
-        <article class="flex min-h-56 flex-col bg-canvas p-6 sm:p-8">
-          <h2 class="font-display text-3xl leading-none">{card.title}</h2>
+        <article class="flex min-h-56 flex-col bg-canvas p-6 sm:p-8 rounded-2xl">
+          <h2 class="flex items-center gap-3 font-display text-2xl leading-none">
+            <span
+              aria-hidden="true"
+              class="size-3 shrink-0 rounded-[3px] bg-accent"
+            />
+            {card.title}
+          </h2>
           <div class="mt-6 space-y-2 text-sm leading-6 text-muted">
             {card.content.map((line) => (
-              <p>{line}</p>
+              <p>
+                {typeof line === 'string'
+                  ? line
+                  : line.map((part) =>
+                      part.href ? (
+                        <a
+                          href={part.href}
+                          target={
+                            part.href.startsWith('https://')
+                              ? '_blank'
+                              : undefined
+                          }
+                          rel={
+                            part.href.startsWith('https://')
+                              ? 'noreferrer'
+                              : undefined
+                          }
+                          class="text-primary underline underline-offset-4 transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+                        >
+                          {part.text}
+                        </a>
+                      ) : (
+                        part.text
+                      ),
+                    )}
+              </p>
             ))}
           </div>
           {card.link && (

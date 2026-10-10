@@ -19,10 +19,14 @@ const { location } = Astro.props;
           class="h-30 w-30 md:w-40 md:h-40 z-30"
           aria-hidden="true"
         />
+        <p class="mt-4 max-w-sm text-sm leading-6 text-muted">
+          Handgjort med hyperfokus, kärlek och de finaste råvarorna. Varmt
+          välkomna in!
+        </p>
       </div>
       <section>
         <h2
-          class="text-sm md:text-base font-medium uppercase tracking-[0.16em] font-display text-primary"
+          class="text-sm md:text-base font-medium uppercase tracking-[0.16em]"
         >
           Pizzeria
         </h2>
@@ -31,14 +35,14 @@ const { location } = Astro.props;
         </address>
         <a
           href={pizzaLocation.instagramUrl}
-          class="mt-4 inline-flex text-sm text-muted transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+          class="mt-4 inline-block break-all text-sm text-primary underline underline-offset-4 transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
           target="_blank"
           rel="noreferrer">@{pizzaLocation.instagramHandle}</a
         >
       </section>
       <section>
         <h2
-          class="text-sm md:text-base font-medium uppercase tracking-[0.16em] font-display text-primary"
+          class="text-sm md:text-base font-medium uppercase tracking-[0.16em]"
         >
           Café
         </h2>
@@ -47,25 +51,26 @@ const { location } = Astro.props;
         </address>
         <a
           href={cafeLocation.instagramUrl}
-          class="mt-4 inline-flex text-sm text-muted transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+          class="mt-4 inline-block break-all text-sm text-primary underline underline-offset-4 transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
           target="_blank"
           rel="noreferrer">@{cafeLocation.instagramHandle}</a
         >
       </section>
       <section>
         <h2
-          class="text-sm md:text-base font-medium uppercase tracking-[0.16em] font-display text-primary"
+          class="text-sm md:text-base font-medium uppercase tracking-[0.16em]"
         >
           Kontakt
         </h2>
+        <ul>
+          <li></li>
+        </ul>
         <p class="mt-4 max-w-sm text-sm leading-6 text-muted">
-          Boka deg genom att komma förbi under våra öppettider. För övriga
-          frågor maila
           <a
             href="mailto:lapiccolanonna@gmail.com"
-            class="transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+            class="break-all text-primary underline underline-offset-4 transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
             >lapiccolanonna@gmail.com</a
-          >.
+          >
         </p>
       </section>
     </div>
