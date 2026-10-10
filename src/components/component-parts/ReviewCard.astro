@@ -1,0 +1,51 @@
+---
+interface Props {
+  text?: string;
+  author?: string;
+  published?: string;
+  active?: boolean;
+}
+
+const { text = '', author = '', published = '', active = false } = Astro.props;
+---
+
+<article
+  data-google-review-slide
+  aria-hidden={active ? 'false' : 'true'}
+  class="min-h-44 w-full shrink-0 p-4 sm:p-6 text-center"
+>
+  <p data-review-text class="mt-4 leading-10 text-xl md:text-2xl">{text}</p>
+  <div
+    class="mt-2 text-xs md:text-sm text-muted uppercase flex gap-2 justify-center"
+  >
+    <p class="font-medium">
+      <a
+        data-review-author
+        class="focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+        >{author}</a
+      >
+    </p>
+    <span data-review-date-separator aria-hidden="true">·</span>
+    <p data-review-published>{published}</p>
+  </div>
+  <div
+    data-review-links
+    hidden
+    class="mt-3 flex justify-center gap-4 text-xs text-muted"
+  >
+    <a
+      data-review-source
+      hidden
+      target="_blank"
+      rel="noreferrer"
+      class="transition-colors hover:text-primary">Visa på Google Maps ↗</a
+    >
+    <a
+      data-review-report
+      hidden
+      target="_blank"
+      rel="noreferrer"
+      class="transition-colors hover:text-primary">Rapportera</a
+    >
+  </div>
+</article>

@@ -1,5 +1,6 @@
 ---
 import { ChevronLeft, ChevronRight } from '@lucide/astro';
+import ReviewCard from './component-parts/ReviewCard.astro';
 import pizzaBackground from '../images/pizza/pizza-bg.png';
 
 // Shown only locally, allowing the layout to be styled without Google credentials.
@@ -47,13 +48,14 @@ const isDevelopment = import.meta.env.DEV;
         </p>
         <h2
           id="google-reviews-heading"
-          data-google-reviews-rating
           class="mt-3 font-display text-5xl md:text-7xl leading-none flex gap-4 items-end"
         >
-          {isDevelopment ? '4.8' : ''}
+          <span data-google-reviews-rating>{isDevelopment ? '4.8' : ''}</span>
           <span class="text-lg md:text-xl text-[#C9A14B] pb-1"
             >★★★★★
-            <span class="block text-text">766 recensioner</span>
+            <span data-google-reviews-count class="block text-text"
+              >{isDevelopment ? '766 recensioner' : ''}</span
+            >
           </span>
         </h2>
       </div>
@@ -88,20 +90,12 @@ const isDevelopment = import.meta.env.DEV;
           {
             isDevelopment &&
               placeholderReviews.map((review, index) => (
-                <article
-                  data-google-review-slide
-                  aria-hidden={index !== 0 ? 'true' : 'false'}
-                  class="min-h-44 w-full shrink-0 p-4 sm:p-6 text-center"
-                >
-                  <p class="mt-4 leading-10 text-xl md:text-2xl">
-                    {review.text}
-                  </p>
-
-                  <div class="mt-2 text-xs md:text-sm text-muted uppercase flex gap-2 justify-center">
-                    <p class="font-medium">{review.author} </p> ·
-                    <p>{review.relativePublishTimeDescription}</p>
-                  </div>
-                </article>
+                <ReviewCard
+                  text={review.text}
+                  author={review.author}
+                  published={review.relativePublishTimeDescription}
+                  active={index === 0}
+                />
               ))
           }
         </div>
@@ -130,7 +124,7 @@ const isDevelopment = import.meta.env.DEV;
                   data-index={index}
                   class:list={[
                     'size-2 rounded-full bg-white/40 transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary',
-                    { 'bg-primary': index === 0 },
+                    { 'bg-accent': index === 0 },
                   ]}
                   aria-label={`Visa recension ${index + 1}`}
                   aria-current={index === 0 ? 'true' : undefined}
@@ -141,6 +135,9 @@ const isDevelopment = import.meta.env.DEV;
       </div>
     </div>
   </div>
+  <template data-google-review-template>
+    <ReviewCard />
+  </template>
 </section>
 
 <script>
@@ -166,6 +163,12 @@ const isDevelopment = import.meta.env.DEV;
   );
   const rating = document.querySelector<HTMLElement>(
     '[data-google-reviews-rating]',
+  );
+  const reviewCount = document.querySelector<HTMLElement>(
+    '[data-google-reviews-count]',
+  );
+  const reviewTemplate = document.querySelector<HTMLTemplateElement>(
+    '[data-google-review-template]',
   );
   const reviewsLink = document.querySelector<HTMLAnchorElement>(
     '[data-google-reviews-link]',
@@ -240,79 +243,54 @@ const isDevelopment = import.meta.env.DEV;
       ?.querySelectorAll<HTMLButtonElement>('[data-google-reviews-dot]')
       .forEach((dot, dotIndex) => {
         const isActive = dotIndex === activeIndex;
-        dot.classList.toggle('bg-primary', isActive);
+        dot.classList.toggle('bg-accent', isActive);
         dot.classList.toggle('bg-white/40', !isActive);
         dot.setAttribute('aria-current', String(isActive));
       });
   };
 
   const createReviewCard = (review: GoogleReview) => {
-    const article = document.createElement('article');
-    article.dataset.googleReviewSlide = '';
-    article.className =
-      'min-h-64 w-full shrink-0 bg-canvas p-6 text-left sm:p-8';
+    const article = reviewTemplate!.content.firstElementChild!.cloneNode(
+      true,
+    ) as HTMLElement;
+    const text = article.querySelector<HTMLElement>('[data-review-text]')!;
+    text.textContent = review.text ?? '';
+    text.hidden = !review.text;
 
-    const authorWrap = document.createElement('div');
-    authorWrap.className = 'flex items-center gap-3';
-    if (review.author?.photoUri) {
-      const avatar = document.createElement('img');
-      avatar.src = review.author.photoUri;
-      avatar.alt = '';
-      avatar.className = 'size-10 rounded-full';
-      authorWrap.append(avatar);
-    }
-
-    const author = document.createElement(review.author?.uri ? 'a' : 'p');
+    const author = article.querySelector<HTMLAnchorElement>(
+      '[data-review-author]',
+    )!;
     author.textContent = review.author?.displayName ?? 'Google-användare';
-    author.className = 'text-sm font-medium';
-    if (author instanceof HTMLAnchorElement && review.author?.uri) {
+    if (review.author?.uri) {
       author.href = review.author.uri;
       author.target = '_blank';
       author.rel = 'noreferrer';
     }
-    authorWrap.append(author);
-    article.append(authorWrap);
 
-    const stars = document.createElement('p');
-    stars.className = 'mt-6 text-primary';
-    stars.setAttribute('aria-label', `${review.rating ?? 0} av 5 stjärnor`);
-    stars.textContent = '★'.repeat(Math.round(review.rating ?? 0));
-    article.append(stars);
+    const published = article.querySelector<HTMLElement>(
+      '[data-review-published]',
+    )!;
+    published.textContent = review.relativePublishTimeDescription ?? '';
+    published.hidden = !review.relativePublishTimeDescription;
+    article.querySelector<HTMLElement>('[data-review-date-separator]')!.hidden =
+      !review.relativePublishTimeDescription;
 
-    if (review.text) {
-      const text = document.createElement('p');
-      text.className = 'mt-4 text-sm leading-6 text-muted';
-      text.textContent = review.text;
-      article.append(text);
-    }
-
-    const footer = document.createElement('div');
-    footer.className =
-      'mt-6 flex items-end justify-between gap-4 text-xs text-muted';
-    if (review.relativePublishTimeDescription) {
-      const published = document.createElement('p');
-      published.textContent = review.relativePublishTimeDescription;
-      footer.append(published);
-    }
+    const links = article.querySelector<HTMLElement>('[data-review-links]')!;
+    const source = article.querySelector<HTMLAnchorElement>(
+      '[data-review-source]',
+    )!;
+    const report = article.querySelector<HTMLAnchorElement>(
+      '[data-review-report]',
+    )!;
     if (review.googleMapsUri) {
-      const source = document.createElement('a');
       source.href = review.googleMapsUri;
-      source.target = '_blank';
-      source.rel = 'noreferrer';
-      source.textContent = 'Visa på Google Maps ↗';
-      source.className = 'text-primary transition-colors hover:text-white';
-      footer.append(source);
+      source.hidden = false;
     }
     if (review.flagContentUri) {
-      const report = document.createElement('a');
       report.href = review.flagContentUri;
-      report.target = '_blank';
-      report.rel = 'noreferrer';
-      report.textContent = 'Rapportera';
-      report.className = 'text-primary transition-colors hover:text-white';
-      footer.append(report);
+      report.hidden = false;
     }
-    if (footer.childElementCount) article.append(footer);
+    links.hidden = !review.googleMapsUri && !review.flagContentUri;
     return article;
   };
 
@@ -341,14 +319,17 @@ const isDevelopment = import.meta.env.DEV;
   showSlide(0);
 
   const loadReviews = async () => {
-    if (!section || !list || !rating || !reviewsLink) return;
+    if (!section || !list || !rating || !reviewsLink || !reviewTemplate) return;
     try {
       const response = await fetch('/.netlify/functions/google-reviews');
       if (!response.ok) return;
       const data = (await response.json()) as GoogleReviewsResponse;
       if (!data.reviews?.length) return;
       if (typeof data.rating === 'number') {
-        rating.textContent = `${data.rating.toFixed(1)} av 5 stjärnor${data.userRatingCount ? ` · ${data.userRatingCount} recensioner` : ''}`;
+        rating.textContent = data.rating.toFixed(1);
+      }
+      if (reviewCount && typeof data.userRatingCount === 'number') {
+        reviewCount.textContent = `${data.userRatingCount} recensioner`;
       }
       if (data.reviewsUri) {
         reviewsLink.href = data.reviewsUri;
