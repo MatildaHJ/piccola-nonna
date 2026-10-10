@@ -1,10 +1,10 @@
 ---
 import type { Location } from '../content/locations';
+import SiteNavigation from './SiteNavigation.astro';
 interface Props {
   location?: Location;
 }
 const { location } = Astro.props;
-const menuId = `site-menu-${location?.id ?? 'landing'}`;
 ---
 
 <header
@@ -13,82 +13,7 @@ const menuId = `site-menu-${location?.id ?? 'landing'}`;
 >
   <div class="relative w-full container">
     <div class="w-full flex items-center justify-between gap-4 py-4">
-      <div>
-        <button
-          type="button"
-          aria-label="Navigeringsmeny"
-          aria-controls={menuId}
-          aria-expanded="false"
-          data-menu-toggle
-          class="group relative z-70 h-8 w-8 cursor-pointer rounded-full transition-[background-color,opacity] duration-(--base-duration) ease-(--standard-ease) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary md:h-9 md:w-9"
-        >
-          <span
-            aria-hidden="true"
-            class="absolute inset-x-0 top-2 h-0.5 bg-current transition-transform duration-(--base-duration) ease-(--standard-ease) group-[.is-open]:translate-y-2 group-[.is-open]:rotate-45 md:group-[.is-open]:translate-y-3"
-          ></span>
-          <span
-            aria-hidden="true"
-            class="absolute inset-x-0 top-1/2 h-0.5 -translate-y-1/2 bg-current transition-opacity duration-(--base-duration) ease-(--standard-ease) group-[.is-open]:opacity-0"
-          ></span>
-          <span
-            aria-hidden="true"
-            class="absolute inset-x-0 bottom-2 h-0.5 bg-current transition-transform duration-(--base-duration) ease-(--standard-ease) group-[.is-open]:-translate-y-2 group-[.is-open]:-rotate-45 md:group-[.is-open]:-translate-y-3"
-          ></span>
-        </button>
-
-        <nav
-          id={menuId}
-          aria-label="Navigering"
-          aria-hidden="true"
-          data-site-menu
-          class="group fixed inset-y-0 left-0 z-60 flex h-svh w-[min(22rem,85vw)] -translate-x-full flex-col bg-canvas/60 p-5 text-white shadow-2xl transition-transform duration-300 ease-out sm:p-8"
-        >
-          <button
-            type="button"
-            aria-label="Stäng navigeringsmeny"
-            data-menu-close
-            class="absolute right-5 top-5 h-8 w-8 cursor-pointer rounded-full opacity-0 transition-[background-color,opacity] duration-200 delay-200 ease-out hover:bg-text/15 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary group-[.is-open]:opacity-100 sm:right-8 sm:top-8"
-          >
-            <span
-              aria-hidden="true"
-              class="absolute left-1/2 top-1/2 h-0.5 w-5 -translate-x-1/2 -translate-y-1/2 rotate-45 bg-current"
-            ></span>
-            <span
-              aria-hidden="true"
-              class="absolute left-1/2 top-1/2 h-0.5 w-5 -translate-x-1/2 -translate-y-1/2 -rotate-45 bg-current"
-            ></span>
-          </button>
-          <ul class="mt-16 flex flex-col gap-6 text-3xl font-display uppercase">
-            <li
-              class="opacity-0 transition-opacity duration-200 delay-200 ease-out group-[.is-open]:opacity-100"
-            >
-              <a
-                href="/"
-                class="transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
-                >Meny</a
-              >
-            </li>
-            <li
-              class="opacity-0 transition-opacity duration-200 delay-200 ease-out group-[.is-open]:opacity-100"
-            >
-              <a
-                href="/"
-                class="transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
-                >Öppettider</a
-              >
-            </li>
-            <li
-              class="opacity-0 transition-opacity duration-200 delay-200 ease-out group-[.is-open]:opacity-100"
-            >
-              <a
-                href="/"
-                class="transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
-                >Om oss</a
-              >
-            </li>
-          </ul>
-        </nav>
-      </div>
+      <SiteNavigation {location} />
       <div class="flex items-center gap-8 md:gap-10">
         <nav
           aria-label="Välj restaurang"
@@ -96,25 +21,28 @@ const menuId = `site-menu-${location?.id ?? 'landing'}`;
           class="transition-opacity"
         >
           <div
-            class="relative grid w-40 grid-cols-2 rounded-full bg-canvas/70 p-1 text-xs font-medium"
+            data-location-toggle
+            class="relative grid w-42 grid-cols-2 rounded-full bg-canvas/70 p-1 text-[13px]"
           >
             <span
               aria-hidden="true"
-              class=`pointer-events-none absolute inset-y-1 left-1 w-[calc(50%-0.25rem)] rounded-full bg-primary transition-transform duration-(--base-duration) ease-(--standard-ease) 
+              class=`pointer-events-none absolute inset-y-1 left-1 w-[calc(50%-0.25rem)] rounded-full bg-text/40 transition-transform duration-(--base-duration) ease-(--standard-ease)
               ${location?.id === 'cafe' ? 'translate-x-full' : 'translate-x-0'}`
             ></span>
             <a
               href="/"
+              data-location-link
               aria-current={location?.id === 'pizza' ? 'page' : undefined}
-              class=`relative z-10 rounded-full px-2 py-1.5 text-center transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary 
-              ${location?.id === 'pizza' ? 'text-canvas' : 'text-text font-light'}`
+              class=`relative z-10 rounded-full px-2 py-1 text-center transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary 
+              `
               >Pizzeria</a
             >
             <a
               href="/cafe"
+              data-location-link
               aria-current={location?.id === 'cafe' ? 'page' : undefined}
-              class=`relative z-10 rounded-full px-2 py-1.5 text-center transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary 
-              ${location?.id === 'cafe' ? 'text-canvas' : 'text-text font-light'}`
+              class=`relative z-10 rounded-full px-2 py-1 text-center transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary 
+              `
               >Café</a
             >
           </div>
@@ -128,12 +56,12 @@ const menuId = `site-menu-${location?.id ?? 'landing'}`;
   document
     .querySelectorAll<HTMLElement>('[data-site-header]')
     .forEach((header) => {
-      const toggle =
-        header.querySelector<HTMLButtonElement>('[data-menu-toggle]');
-      const menu = header.querySelector<HTMLElement>('[data-site-menu]');
-      const close =
-        header.querySelector<HTMLButtonElement>('[data-menu-close]');
-      if (!toggle || !menu || !close) return;
+      const locationToggle = header.querySelector<HTMLElement>(
+        '[data-location-toggle]',
+      );
+      const locationLinks = header.querySelectorAll<HTMLAnchorElement>(
+        '[data-location-link]',
+      );
 
       const backgroundTrigger = document.querySelector<HTMLElement>(
         '[data-header-background-trigger]',
@@ -147,43 +75,18 @@ const menuId = `site-menu-${location?.id ?? 'landing'}`;
 
         header.classList.toggle('bg-canvas/80', hasReachedMenu);
         header.classList.toggle('bg-transparent', !hasReachedMenu);
-        toggle.classList.toggle('bg-text', hasReachedMenu);
-        toggle.classList.toggle('text-canvas', hasReachedMenu);
+        locationToggle?.classList.toggle('bg-text/20', hasReachedMenu);
+        locationToggle?.classList.toggle('bg-canvas/70', !hasReachedMenu);
+        locationLinks.forEach((link) => {
+          const isCurrentLocation =
+            link.getAttribute('aria-current') === 'page';
+          link.classList.toggle(
+            'text-text',
+            hasReachedMenu || isCurrentLocation,
+          );
+          link.classList.toggle('text-text/80', !isCurrentLocation);
+        });
       };
-
-      const setMenuOpen = (isOpen: boolean) => {
-        menu.classList.toggle('-translate-x-full', !isOpen);
-        menu.classList.toggle('is-open', isOpen);
-        menu.setAttribute('aria-hidden', String(!isOpen));
-        toggle.setAttribute('aria-expanded', String(isOpen));
-        toggle.setAttribute(
-          'aria-label',
-          isOpen ? 'Stäng navigeringsmeny' : 'Navigeringsmeny',
-        );
-        toggle.classList.toggle('pointer-events-none', isOpen);
-        toggle.classList.toggle('opacity-0', isOpen);
-
-        if (isOpen) {
-          close.focus();
-        } else {
-          toggle.focus();
-        }
-      };
-
-      toggle.addEventListener('click', () => {
-        setMenuOpen(toggle.getAttribute('aria-expanded') !== 'true');
-      });
-
-      close.addEventListener('click', () => setMenuOpen(false));
-
-      window.addEventListener('keydown', (event) => {
-        if (
-          event.key === 'Escape' &&
-          toggle.getAttribute('aria-expanded') === 'true'
-        ) {
-          setMenuOpen(false);
-        }
-      });
 
       updateBackground();
       window.addEventListener('scroll', updateBackground, { passive: true });

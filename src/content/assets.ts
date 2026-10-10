@@ -3,7 +3,7 @@ import type { ImageMetadata } from 'astro';
 import cafeLogo from '../images/logo-cafe.png';
 import pizzaLogo from '../images/logo-pizza.png';
 import cafeHero from '../images/cafe/location-cafe.png';
-import pizzaHero from '../images/pizza/pizza-hero-copy.jpeg';
+import pizzaHero from '../images/pizza/pizza-hero.jpeg';
 import pizzaDetail from '../images/pizza/nonna-pizza2.jpeg';
 
 export type LocationAssets = {

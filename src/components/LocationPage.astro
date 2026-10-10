@@ -6,6 +6,7 @@ import Menu from './component-parts/Menu.astro';
 import Hero from './component-parts/Hero.astro';
 import LocationInfoCards from './component-parts/LocationInfoCards.astro';
 import GoogleReviews from './GoogleReviews.astro';
+import LocationMap from './LocationMap.astro';
 interface Props {
   location: Location;
 }
@@ -17,14 +18,16 @@ const { location } = Astro.props;
   <SiteHeader {location} />
   <main>
     <section
+      id="menu-section"
       data-header-background-trigger
       class="bg-canvas py-16 sm:py-24"
       aria-labelledby="menu-heading"
     >
       <Menu location={location} />
     </section>
-    {location.id === 'pizza' && <GoogleReviews />}
     <LocationInfoCards location={location} />
+    {location.id === 'pizza' && <GoogleReviews />}
+    <LocationMap {location} />
   </main>
   <SiteFooter {location} />
 </div>

@@ -1,29 +1,230 @@
 ---
 import type { Location } from '../content/locations';
+
 interface Props {
   location: Location;
 }
+
 const { location } = Astro.props;
+const apiKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY ?? '';
+const mapAddress = `${location.address}, ${location.locality}, Sweden`;
+const embedUrl = `https://www.google.com/maps?${new URLSearchParams({ q: mapAddress, z: '16', output: 'embed', hl: 'sv' })}`;
 ---
 
 <section
-  class="relative z-10 mx-auto -mb-16 w-[min(100%-2rem,75rem)] bg-accent p-6 text-white shadow-(--soft-shadow) sm:-mb-20 sm:p-10"
+  data-location-map
+  data-map-key={apiKey}
+  data-map-address={mapAddress}
+  class="relative h-[400px] w-full overflow-hidden bg-primary"
+  aria-label={`Hitta till ${location.name}`}
 >
-  <p class="text-xs font-semibold uppercase tracking-[0.16em]">Hitta hit</p><div
-    class="mt-4 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between"
-  >
-    <address class="not-italic">
-      <p class="font-display text-3xl leading-none">{location.address}</p><p
-        class="mt-2 text-sm"
-      >
-        {location.locality}
-      </p>
-    </address><a
+  <div data-map-canvas class="h-full w-full"></div>
+  <div data-map-fallback class="absolute inset-0">
+    <iframe
+      src={embedUrl}
+      title={`Google Maps: ${location.name}, ${location.address}`}
+      width="100%"
+      height="400"
+      loading="lazy"
+      referrerpolicy="strict-origin-when-cross-origin"
+      class="h-full w-full border-0 grayscale"
+      allowfullscreen></iframe>
+    <div
+      aria-hidden="true"
+      class="pointer-events-none absolute inset-0 bg-primary/60"
+    >
+    </div>
+  </div>
+  <template data-map-pin>
+    <a
       href={location.mapUrl}
       target="_blank"
       rel="noreferrer"
-      class="inline-flex w-fit rounded-full bg-canvas px-5 py-3 text-sm font-medium text-white transition-colors hover:bg-primary hover:text-canvas focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
-      >Öppna vägbeskrivning <span aria-hidden="true">↗</span></a
+      aria-label={`Vägbeskrivning till ${location.name}, ${location.address}`}
+      class="map-pin focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-canvas"
     >
-  </div>
+      <img src={location.assets.logo.src} alt={location.name} />
+    </a>
+  </template>
 </section>
+
+<script>
+  // Only the Google Maps interfaces used by this component are needed here.
+  type Coordinate = { lat(): number; lng(): number };
+  type MapInstance = { getCenter(): Coordinate | undefined };
+  type MapOverlay = {
+    onAdd(): void;
+    draw(): void;
+    onRemove(): void;
+    setMap(map: MapInstance | null): void;
+    getPanes(): { overlayLayer: Element; overlayMouseTarget: Element } | null;
+    getProjection(): {
+      fromLatLngToDivPixel(
+        position: Coordinate,
+      ): { x: number; y: number } | null;
+    };
+  };
+  type MapsApi = {
+    Map: new (
+      element: HTMLElement,
+      options: Record<string, unknown>,
+    ) => MapInstance;
+    Geocoder: new () => {
+      geocode(request: { address: string }): Promise<{
+        results: { geometry: { location: Coordinate } }[];
+      }>;
+    };
+    OverlayView: new () => MapOverlay;
+  };
+
+  const mapsWindow = window as typeof window & {
+    google?: { maps: MapsApi };
+    piccolaNonnaMapsReady?: () => void;
+  };
+  let mapsPromise: Promise<MapsApi> | undefined;
+
+  const loadMaps = (key: string) => {
+    if (mapsWindow.google?.maps) return Promise.resolve(mapsWindow.google.maps);
+    if (mapsPromise) return mapsPromise;
+
+    mapsPromise = new Promise<MapsApi>((resolve, reject) => {
+      const script = document.createElement('script');
+      const timeout = window.setTimeout(() => {
+        reject(new Error('Google Maps loading timed out'));
+      }, 15000);
+      mapsWindow.piccolaNonnaMapsReady = () => {
+        window.clearTimeout(timeout);
+        if (mapsWindow.google) resolve(mapsWindow.google.maps);
+        else reject(new Error('Google Maps unavailable'));
+        delete mapsWindow.piccolaNonnaMapsReady;
+      };
+      script.onerror = () => {
+        window.clearTimeout(timeout);
+        reject(new Error('Google Maps failed to load'));
+      };
+      const params = new URLSearchParams({
+        key,
+        callback: 'piccolaNonnaMapsReady',
+        loading: 'async',
+        libraries: 'geocoding',
+        v: 'quarterly',
+        language: 'sv',
+        region: 'SE',
+      });
+      script.src = `https://maps.googleapis.com/maps/api/js?${params}`;
+      script.async = true;
+      document.head.append(script);
+    });
+    return mapsPromise;
+  };
+
+  const initializeMap = async (section: HTMLElement) => {
+    const key = section.dataset.mapKey;
+    const address = section.dataset.mapAddress;
+    const canvas = section.querySelector<HTMLElement>('[data-map-canvas]');
+    const fallback = section.querySelector<HTMLElement>('[data-map-fallback]');
+    const template =
+      section.querySelector<HTMLTemplateElement>('[data-map-pin]');
+    if (!key || !address || !canvas || !template) return;
+
+    try {
+      const maps = await loadMaps(key);
+      const { results } = await new maps.Geocoder().geocode({ address });
+      const position = results[0]?.geometry.location;
+      if (!position) return;
+
+      const map = new maps.Map(canvas, {
+        center: position,
+        zoom: 16,
+        renderingType: 'RASTER',
+        styles: [{ stylers: [{ saturation: -100 }] }],
+        disableDefaultUI: true,
+        zoomControl: true,
+        gestureHandling: 'cooperative',
+        clickableIcons: false,
+        backgroundColor: '#e5e5e5',
+      });
+      const pin = template.content.firstElementChild!.cloneNode(
+        true,
+      ) as HTMLElement;
+      const tint = document.createElement('div');
+      Object.assign(tint.style, {
+        position: 'absolute',
+        width: '200vw',
+        height: '200vh',
+        transform: 'translate(-50%, -50%)',
+        background: 'var(--color-primary)',
+        opacity: '0.6',
+        pointerEvents: 'none',
+      });
+
+      class RestaurantOverlay extends maps.OverlayView {
+        onAdd() {
+          const panes = this.getPanes();
+          // Map panes sit below Google's controls and attribution.
+          panes?.overlayLayer.append(tint);
+          panes?.overlayMouseTarget.append(pin);
+        }
+
+        draw() {
+          const projection = this.getProjection();
+          const point = projection.fromLatLngToDivPixel(position!);
+          const center = map.getCenter();
+          const tintPoint = center && projection.fromLatLngToDivPixel(center);
+          if (point) {
+            pin.style.left = `${point.x}px`;
+            pin.style.top = `${point.y}px`;
+          }
+          if (tintPoint) {
+            tint.style.left = `${tintPoint.x}px`;
+            tint.style.top = `${tintPoint.y}px`;
+          }
+        }
+
+        onRemove() {
+          tint.remove();
+          pin.remove();
+        }
+      }
+
+      new RestaurantOverlay().setMap(map);
+      if (fallback) fallback.hidden = true;
+    } catch (error) {
+      console.warn('Location map unavailable:', error);
+      // Keep the embedded map visible if the custom map cannot load.
+    }
+  };
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        observer.unobserve(entry.target);
+        void initializeMap(entry.target as HTMLElement);
+      });
+    },
+    { rootMargin: '300px' },
+  );
+  document
+    .querySelectorAll<HTMLElement>('[data-location-map]')
+    .forEach((section) => {
+      observer.observe(section);
+    });
+</script>
+
+<style>
+  .map-pin {
+    position: absolute;
+    display: block;
+    width: 64px;
+    height: 64px;
+    transform: translate(-50%, -100%);
+    filter: drop-shadow(0 3px 8px rgb(0 0 0 / 25%));
+  }
+
+  .map-pin img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+</style>

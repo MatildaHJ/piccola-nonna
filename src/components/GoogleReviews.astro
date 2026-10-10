@@ -1,30 +1,60 @@
 ---
-// This component intentionally loads reviews in the browser through the Netlify
-// Function. The API key therefore remains server-side and review content is not
-// embedded in the static build.
+import { ChevronLeft, ChevronRight } from '@lucide/astro';
+import pizzaBackground from '../images/pizza/pizza-bg.png';
+
+// Shown only locally, allowing the layout to be styled without Google credentials.
+const placeholderReviews = [
+  {
+    author: 'Sofia Lind',
+    rating: 5,
+    text: 'Otroligt god pizza, varm service och en så mysig liten restaurang. Vi kommer definitivt tillbaka!',
+    relativePublishTimeDescription: 'för 2 veckor sedan',
+  },
+  {
+    author: 'Erik Andersson',
+    rating: 5,
+    text: 'Den bästa napolitanska pizzan vi har ätit i Stockholm. Deg, råvaror och personal – allt satt perfekt.',
+    relativePublishTimeDescription: 'för en månad sedan',
+  },
+  {
+    author: 'Maja Karlsson',
+    rating: 5,
+    text: 'En riktig kvartersfavorit. Härlig stämning, fina smaker och alltid ett väldigt varmt välkomnande.',
+    relativePublishTimeDescription: 'för 2 månader sedan',
+  },
+];
+
+const isDevelopment = import.meta.env.DEV;
 ---
 
 <section
-  hidden
+  hidden={!isDevelopment}
   data-google-reviews
-  class="bg-canvas-light py-16 sm:py-24"
+  data-review-background-width={pizzaBackground.width}
+  data-review-background-height={pizzaBackground.height}
+  class="relative isolate overflow-hidden py-16 sm:py-24"
   aria-labelledby="google-reviews-heading"
+  style={`--reviews-background-position-y: 0px; background-image: url(${pizzaBackground.src}); background-position: center var(--reviews-background-position-y); background-size: cover;`}
 >
-  <div class="page-shell">
-    <div
-      class="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between"
-    >
+  <div class="absolute inset-0 z-0 bg-canvas/90" aria-hidden="true"></div>
+  <div class="container relative z-10 text-center">
+    <div class="flex flex-col items-center gap-5">
       <div>
         <p
           class="text-xs font-semibold uppercase tracking-[0.16em] text-primary"
         >
-          Google Maps
+          Älskad av pizzaälskare
         </p>
         <h2
           id="google-reviews-heading"
-          class="mt-3 font-display text-5xl leading-none sm:text-6xl"
+          data-google-reviews-rating
+          class="mt-3 font-display text-5xl md:text-7xl leading-none flex gap-4 items-end"
         >
-          Gästernas ord
+          {isDevelopment ? '4.8' : ''}
+          <span class="text-lg md:text-xl text-[#C9A14B] pb-1"
+            >★★★★★
+            <span class="block text-text">766 recensioner</span>
+          </span>
         </h2>
       </div>
       <a
@@ -36,11 +66,80 @@
       >
     </div>
 
-    <p data-google-reviews-rating class="mt-6 text-lg"></p>
-    <p class="mt-2 text-sm text-muted">
-      Recensioner visas i relevansordning från Google Maps.
-    </p>
-    <div data-google-reviews-list class="mt-10 grid gap-4 md:grid-cols-3"></div>
+    <div
+      class="mx-auto mt-10 grid max-w-3xl grid-cols-[2.5rem_minmax(0,1fr)_2.5rem] items-center gap-x-1 sm:gap-x-4"
+      data-google-reviews-carousel
+    >
+      <button
+        type="button"
+        data-google-reviews-previous
+        class="review-arrow grid size-10 cursor-pointer place-items-center rounded-full text-primary
+        focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+        aria-label="Visa föregående recension"
+      >
+        <ChevronLeft size={28} stroke-width={1.5} aria-hidden="true" />
+      </button>
+      <div class="overflow-hidden">
+        <div
+          data-google-reviews-list
+          aria-live="polite"
+          class="flex will-change-transform transition-transform duration-500 ease-(--standard-ease)"
+        >
+          {
+            isDevelopment &&
+              placeholderReviews.map((review, index) => (
+                <article
+                  data-google-review-slide
+                  aria-hidden={index !== 0 ? 'true' : 'false'}
+                  class="min-h-44 w-full shrink-0 p-4 sm:p-6 text-center"
+                >
+                  <p class="mt-4 leading-10 text-xl md:text-2xl">
+                    {review.text}
+                  </p>
+
+                  <div class="mt-2 text-xs md:text-sm text-muted uppercase flex gap-2 justify-center">
+                    <p class="font-medium">{review.author} </p> ·
+                    <p>{review.relativePublishTimeDescription}</p>
+                  </div>
+                </article>
+              ))
+          }
+        </div>
+      </div>
+
+      <button
+        type="button"
+        data-google-reviews-next
+        class="review-arrow grid size-10 cursor-pointer place-items-center rounded-full text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+        aria-label="Visa nästa recension"
+      >
+        <ChevronRight size={28} stroke-width={1.5} aria-hidden="true" />
+      </button>
+      <div class="col-start-2 mt-6 flex items-center justify-center">
+        <div
+          class="flex items-center gap-2"
+          data-google-reviews-dots
+          aria-label="Välj recension"
+        >
+          {
+            isDevelopment &&
+              placeholderReviews.map((_, index) => (
+                <button
+                  type="button"
+                  data-google-reviews-dot
+                  data-index={index}
+                  class:list={[
+                    'size-2 rounded-full bg-white/40 transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary',
+                    { 'bg-primary': index === 0 },
+                  ]}
+                  aria-label={`Visa recension ${index + 1}`}
+                  aria-current={index === 0 ? 'true' : undefined}
+                />
+              ))
+          }
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -51,11 +150,7 @@
     relativePublishTimeDescription?: string;
     googleMapsUri?: string;
     flagContentUri?: string;
-    author?: {
-      displayName?: string;
-      uri?: string;
-      photoUri?: string;
-    };
+    author?: { displayName?: string; uri?: string; photoUri?: string };
   };
 
   type GoogleReviewsResponse = {
@@ -75,34 +170,108 @@
   const reviewsLink = document.querySelector<HTMLAnchorElement>(
     '[data-google-reviews-link]',
   );
+  const dots = document.querySelector<HTMLElement>(
+    '[data-google-reviews-dots]',
+  );
+  const previous = document.querySelector<HTMLButtonElement>(
+    '[data-google-reviews-previous]',
+  );
+  const next = document.querySelector<HTMLButtonElement>(
+    '[data-google-reviews-next]',
+  );
+  let activeIndex = 0;
+
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let parallaxFrame: number | undefined;
+
+  const updateParallax = () => {
+    if (!section || reducedMotion.matches) return;
+
+    const imageWidth = Number(section.dataset.reviewBackgroundWidth);
+    const imageHeight = Number(section.dataset.reviewBackgroundHeight);
+    if (!imageWidth || !imageHeight) return;
+
+    const sectionBounds = section.getBoundingClientRect();
+    const imageAspectRatio = imageWidth / imageHeight;
+    const renderedImageHeight = Math.max(
+      section.clientHeight,
+      section.clientWidth / imageAspectRatio,
+    );
+    const maximumOffset = renderedImageHeight - section.clientHeight;
+    const parallaxStart = window.innerHeight * 0.2;
+    const scrollProgress = Math.min(
+      1,
+      Math.max(0, (parallaxStart - sectionBounds.top) / parallaxStart),
+    );
+
+    section.style.setProperty(
+      '--reviews-background-position-y',
+      `${-maximumOffset * scrollProgress}px`,
+    );
+  };
+
+  const requestParallaxUpdate = () => {
+    if (parallaxFrame) return;
+    parallaxFrame = window.requestAnimationFrame(() => {
+      updateParallax();
+      parallaxFrame = undefined;
+    });
+  };
+
+  requestParallaxUpdate();
+  window.addEventListener('scroll', requestParallaxUpdate, { passive: true });
+  window.addEventListener('resize', requestParallaxUpdate);
+
+  const getSlides = () =>
+    Array.from(
+      list?.querySelectorAll<HTMLElement>('[data-google-review-slide]') ?? [],
+    );
+
+  const showSlide = (index: number) => {
+    const slides = getSlides();
+    if (!slides.length) return;
+    activeIndex = (index + slides.length) % slides.length;
+    slides.forEach((slide, slideIndex) => {
+      const isActive = slideIndex === activeIndex;
+      slide.setAttribute('aria-hidden', String(!isActive));
+    });
+    if (list) list.style.transform = `translateX(-${activeIndex * 100}%)`;
+    dots
+      ?.querySelectorAll<HTMLButtonElement>('[data-google-reviews-dot]')
+      .forEach((dot, dotIndex) => {
+        const isActive = dotIndex === activeIndex;
+        dot.classList.toggle('bg-primary', isActive);
+        dot.classList.toggle('bg-white/40', !isActive);
+        dot.setAttribute('aria-current', String(isActive));
+      });
+  };
 
   const createReviewCard = (review: GoogleReview) => {
     const article = document.createElement('article');
-    article.className = 'flex min-h-64 flex-col bg-canvas p-6';
+    article.dataset.googleReviewSlide = '';
+    article.className =
+      'min-h-64 w-full shrink-0 bg-canvas p-6 text-left sm:p-8';
 
-    const author = document.createElement('div');
-    author.className = 'flex items-center gap-3';
-
+    const authorWrap = document.createElement('div');
+    authorWrap.className = 'flex items-center gap-3';
     if (review.author?.photoUri) {
       const avatar = document.createElement('img');
       avatar.src = review.author.photoUri;
       avatar.alt = '';
       avatar.className = 'size-10 rounded-full';
-      author.append(avatar);
+      authorWrap.append(avatar);
     }
 
-    const authorText = document.createElement(review.author?.uri ? 'a' : 'p');
-    authorText.textContent = review.author?.displayName ?? 'Google-användare';
-    authorText.className = 'text-sm font-medium';
-
-    if (authorText instanceof HTMLAnchorElement && review.author?.uri) {
-      authorText.href = review.author.uri;
-      authorText.target = '_blank';
-      authorText.rel = 'noreferrer';
+    const author = document.createElement(review.author?.uri ? 'a' : 'p');
+    author.textContent = review.author?.displayName ?? 'Google-användare';
+    author.className = 'text-sm font-medium';
+    if (author instanceof HTMLAnchorElement && review.author?.uri) {
+      author.href = review.author.uri;
+      author.target = '_blank';
+      author.rel = 'noreferrer';
     }
-
-    author.append(authorText);
-    article.append(author);
+    authorWrap.append(author);
+    article.append(authorWrap);
 
     const stars = document.createElement('p');
     stars.className = 'mt-6 text-primary';
@@ -119,14 +288,12 @@
 
     const footer = document.createElement('div');
     footer.className =
-      'mt-auto flex items-end justify-between gap-4 pt-6 text-xs text-muted';
-
+      'mt-6 flex items-end justify-between gap-4 text-xs text-muted';
     if (review.relativePublishTimeDescription) {
       const published = document.createElement('p');
       published.textContent = review.relativePublishTimeDescription;
       footer.append(published);
     }
-
     if (review.googleMapsUri) {
       const source = document.createElement('a');
       source.href = review.googleMapsUri;
@@ -136,7 +303,6 @@
       source.className = 'text-primary transition-colors hover:text-white';
       footer.append(source);
     }
-
     if (review.flagContentUri) {
       const report = document.createElement('a');
       report.href = review.flagContentUri;
@@ -146,36 +312,72 @@
       report.className = 'text-primary transition-colors hover:text-white';
       footer.append(report);
     }
-
-    article.append(footer);
+    if (footer.childElementCount) article.append(footer);
     return article;
   };
 
+  const renderDots = () => {
+    if (!dots) return;
+    dots.replaceChildren();
+    getSlides().forEach((_, index) => {
+      const dot = document.createElement('button');
+      dot.type = 'button';
+      dot.dataset.googleReviewsDot = '';
+      dot.className =
+        'size-2 rounded-full bg-white/40 transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary';
+      dot.setAttribute('aria-label', `Visa recension ${index + 1}`);
+      dot.addEventListener('click', () => showSlide(index));
+      dots.append(dot);
+    });
+  };
+
+  previous?.addEventListener('click', () => showSlide(activeIndex - 1));
+  next?.addEventListener('click', () => showSlide(activeIndex + 1));
+  dots
+    ?.querySelectorAll<HTMLButtonElement>('[data-google-reviews-dot]')
+    .forEach((dot) =>
+      dot.addEventListener('click', () => showSlide(Number(dot.dataset.index))),
+    );
+  showSlide(0);
+
   const loadReviews = async () => {
     if (!section || !list || !rating || !reviewsLink) return;
-
     try {
       const response = await fetch('/.netlify/functions/google-reviews');
       if (!response.ok) return;
-
       const data = (await response.json()) as GoogleReviewsResponse;
       if (!data.reviews?.length) return;
-
       if (typeof data.rating === 'number') {
         rating.textContent = `${data.rating.toFixed(1)} av 5 stjärnor${data.userRatingCount ? ` · ${data.userRatingCount} recensioner` : ''}`;
       }
-
       if (data.reviewsUri) {
         reviewsLink.href = data.reviewsUri;
         reviewsLink.classList.remove('hidden');
       }
-
-      data.reviews.forEach((review) => list.append(createReviewCard(review)));
+      list.replaceChildren(...data.reviews.map(createReviewCard));
+      activeIndex = 0;
+      renderDots();
+      showSlide(0);
       section.hidden = false;
+      requestParallaxUpdate();
     } catch {
-      // The site remains clean when the function is unavailable locally or Google is down.
+      // The local placeholder remains visible when the function is unavailable.
     }
   };
 
   void loadReviews();
 </script>
+
+<style lang="scss">
+  @use '../styles/variables' as *;
+
+  .review-arrow {
+    border: 0;
+    background: transparent;
+    transition: box-shadow $base-duration $standard-ease;
+
+    &:is(:hover, :focus-visible) {
+      box-shadow: $neon-shadow;
+    }
+  }
+</style>

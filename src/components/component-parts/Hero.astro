@@ -14,7 +14,7 @@ const alternateLocation =
 <section class="relative group w-screen h-svh md:h-vh">
   <div
     class="absolute inset-0 bg-cover bg-center"
-    style={`background-image: linear-gradient(rgb(18 23 28 / 25%), rgb(18 23 28 / 90%)), url(${location.assets.hero.src})`}
+    style={`background-image: linear-gradient(rgb(18 23 28 / 45%), rgb(18 23 28 / 95%)), url(${location.assets.hero.src})`}
   >
   </div>
   <div
@@ -33,8 +33,10 @@ const alternateLocation =
       {location.assets.heroText}
     </p>
     <div class="flex gap-4">
-      <button class="button button--transparent text-sm md:text-base z-30"
-        >Meny</button
+      <a
+        href="#menu-section"
+        class="button button--transparent text-sm md:text-base z-30"
+        >Meny</a
       >
       <a
         href={alternateLocation.route}

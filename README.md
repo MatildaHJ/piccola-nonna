@@ -49,6 +49,18 @@ For local function testing, add the variables to `.env` and run the site with Ne
 
 `npm run build` generates the static production output in `dist/`.
 
+## Google maps (both locations)
+
+Each page loads a full-width, 400px map above the footer, geocodes its restaurant address, and uses its logo as the map pin. The grayscale map has a 60% primary-color tint covering the full map. In the JavaScript version, the logo, Google controls, and attribution remain above the tint. Maps load when the section approaches the viewport. A Google Maps iframe shows the actual restaurant map immediately, even without an API key; the JavaScript map replaces it when configured. The embedded version uses Google’s standard pin. The custom logo pin requires the browser API key below.
+
+To enable maps:
+
+1. In a Google Cloud project with billing enabled, enable **Maps JavaScript API** and **Geocoding API**.
+2. Create a separate browser API key. Restrict it to **Websites (HTTP referrers)** for your production domain and `http://localhost:4321/*`, and restrict its APIs to Maps JavaScript API and Geocoding API. Keep the server-side reviews key separate.
+3. Set `PUBLIC_GOOGLE_MAPS_API_KEY` in a local `.env` file and in Netlify's build environment, then restart development or rebuild/redeploy.
+
+The browser key is intentionally public and protected by its website/API restrictions. In Netlify, do not mark `PUBLIC_GOOGLE_MAPS_API_KEY` as containing secret values: it is included in the browser's HTML. Keep `GOOGLE_PLACES_API_KEY` marked as secret and server-only. No server function or map ID is required for this implementation; the logo uses a custom Google Maps overlay.
+
 ## Project structure
 
 ```text
@@ -91,4 +103,4 @@ In Netlify's project settings, set `NODE_VERSION` to `22.23.2` before the first 
 
 ## Environment variables
 
-The initial site has no required environment variables. Future Instagram credentials belong in Netlify environment-variable settings and in a local uncommitted `.env` file for development. Never commit credentials; `.env*` is ignored by Git.
+Google maps use `PUBLIC_GOOGLE_MAPS_API_KEY` at build time. Google reviews use the server-side `GOOGLE_PLACES_API_KEY` and `GOOGLE_PIZZA_PLACE_ID` variables described above. Set these in Netlify and a local uncommitted `.env` file. Future Instagram credentials also belong there. Never commit credentials; `.env*` is ignored by Git.

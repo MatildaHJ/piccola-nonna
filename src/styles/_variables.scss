@@ -129,13 +129,13 @@ $bg-light: #2a2a2a;
 $color-primary: #f994ac;
 $color-primary-light: #fff3f6;
 $color-primary-dark: #f4446d;
-$color-accent: #00aaad;
+$color-accent: #008f78;
 $color-text: #fffeef;
 $color-muted: color-mix(in srgb, white 65%, $bg-canvas);
 $radial-gradient-pink: radial-gradient(
   circle at 50% 115%,
   $color-primary-light 0%,
-  rgb(249, 187, 202) 5%,
+  rgb(249, 187, 202) 1%,
   $color-primary 35%,
   #f47593 85%,
   #f36b8a 100%
