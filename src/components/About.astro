@@ -1,0 +1,67 @@
+---
+import type { Location } from '../content/locations';
+import { Image } from 'astro:assets';
+
+interface Props {
+  location: Location;
+}
+
+const { location } = Astro.props;
+const { about } = location;
+const [firstImage, secondImage] = location.assets.aboutImages;
+---
+
+<section class="bg-canvas py-16 sm:py-24" aria-labelledby="about-heading">
+  <div class="container grid items-center gap-12 lg:grid-cols-2 lg:gap-10">
+    <div>
+      <p
+        class="mb-4 text-xs font-medium uppercase tracking-[0.16em] text-primary"
+      >
+        Historien om La Piccola Nonna
+      </p>
+      <h2
+        id="about-heading"
+        class="whitespace-nowrap font-display text-[clamp(1.75rem,8vw,2.5rem)] leading-none text-white md:text-5xl"
+      >
+        Hur allt började
+      </h2>
+      <div class="mt-8 max-w-2xl text-base leading-8 text-muted">
+        <p>{about.body}</p>
+        <blockquote class="my-6 border-l-2 border-primary pl-6 sm:my-8 sm:pl-8">
+          <p
+            class="font-display text-[18px] leading-snug text-white sm:text-[22px]"
+          >
+            &ldquo;{about.quote}&rdquo;
+          </p>
+        </blockquote>
+        {
+          about.closing && (
+            <p>
+              {about.closing}
+              {about.signoff && (
+                <>
+                  <br />
+                  {about.signoff}
+                </>
+              )}
+            </p>
+          )
+        }
+      </div>
+    </div>
+    <div class="relative mx-auto aspect-[1/1.1] w-full max-w-xl">
+      <Image
+        src={firstImage.src}
+        alt={firstImage.alt}
+        loading="lazy"
+        class="absolute top-[3%] left-[3%] aspect-square w-[65%] -rotate-6 object-cover shadow-2xl"
+      />
+      <Image
+        src={secondImage.src}
+        alt={secondImage.alt}
+        loading="lazy"
+        class="absolute right-[3%] bottom-[3%] aspect-square w-[63%] rotate-6 object-cover shadow-2xl"
+      />
+    </div>
+  </div>
+</section>

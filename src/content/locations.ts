@@ -36,10 +36,20 @@ export type Location = {
   instagramHandle: string;
   instagramUrl: string;
   intro: string;
+  about: {
+    body: string;
+    quote: string;
+    closing?: string;
+    signoff?: string;
+  };
   openingHours: OpeningHour[];
   menu: MenuSection[];
-  menuStatus?: string;
+  dessert?: {
+    name: string;
+    note?: string;
+  };
   menuNote?: string;
+  veganNote?: string;
   notices?: string[];
   visitPolicy?: string;
   infoCards: LocationInfoCard[];
@@ -71,7 +81,10 @@ export const locations = {
       {
         title: 'Le Rosse',
         items: [
-          { name: 'Marinara', description: 'Tomat, Vitlök, Oregano, Olivolja' },
+          {
+            name: 'Marinara',
+            description: 'Tomat, Vitlök, Oregano, Olivolja',
+          },
           {
             name: 'Margherita',
             description: 'Tomat, Fior di Latte, Pecorino, Basilika, Olivolja',
@@ -114,9 +127,17 @@ export const locations = {
         ],
       },
     ],
-    menuStatus: 'Alla pizzor går att få veganska eller vegetariska.',
+    about: {
+      body: 'Det började med att vi genom vurmandet för god vegansk och vegetarisk mat, samt gemensamt pizzanörderi, valde att starta ett företag. Från början åkte vi runt och krängde pizza med hjälp av en cykelvagn som sedan utvecklades till en moped-bil och nu har vi vår fasta lokal på Södermalm.',
+      quote:
+        'God pizza ska inte behöva vara krånglig, bara ärlig. Perfekt deg, bra råvaror och mycket kärlek.',
+      closing:
+        'Vi är så stolta över att kunna leverera en riktigt god vegansk och vegetarisk pizza till ett rimligt pris. Kom gärna förbi oss och smaka.',
+      signoff: 'Varma hälsningar från oss på Nonna!',
+    },
     menuNote: 'En bit av Neapel',
-    notices: ['Vi erbjuder inte glutenfri pizzabotten eller hemleverans.'],
+    veganNote: '* Alla pizzor går att få veganska eller vegetariska.',
+    notices: ['* Vi erbjuder inte glutenfri pizzabotten eller hemleverans.'],
     visitPolicy:
       'Begränsat antal pizzor och platser. Vi tar inte bokningar – först till kvarn gäller.',
     infoCards: [
@@ -174,13 +195,50 @@ export const locations = {
     instagramHandle: 'lapiccolanonnacafe',
     instagramUrl: 'https://www.instagram.com/lapiccolanonnacafe/',
     intro: 'Gnocchi och goda stunder i Slakthusområdet.',
+    about: {
+      body: 'Här kommer berättelsen om hur La Piccola Nonna Café började.',
+      quote: 'Här kommer ett citat från oss på caféet.',
+    },
     openingHours: placeholderHours,
     menu: [
-      { title: 'Gnocchi', items: [] },
-      { title: 'Sandwiches', items: [] },
+      {
+        title: 'Gnocchi',
+        items: [
+          {
+            name: 'Gnocchi',
+            description: 'Handgjord gnocchi, Tomatsås, Pecorino',
+          },
+        ],
+      },
+      {
+        title: 'Grillade mackor',
+        items: [
+          {
+            name: 'Reuben',
+            description: 'Seitan, Surkål, Dijonaise, Fior di Latte',
+          },
+          {
+            name: 'Klassiker',
+            description: 'Dijonaise, Cheddar, Fior di Latte, Svartpeppar',
+          },
+          {
+            name: 'Skockan',
+            description:
+              'Kronärtskockspesto, Zucchini, Pecorino, Fior di Latte',
+          },
+          {
+            name: 'Rosso',
+            description: 'Tomatpesto, Aubergine, Pecorino, Fior di Latte',
+          },
+        ],
+      },
     ],
-    menuStatus: 'Menyn kommer snart.',
-    menuNote: 'Gnocchi och sandwiches, direkt från köket.',
+    dessert: { name: 'Tiramisu', note: 'vegan' },
+    veganNote: '* Alla rätter går att få vegetariska eller veganska.',
+    menuNote: 'Gnocchi och grillade mackor, direkt från köket.',
+    notices: [
+      '* Vi erbjuder inte hemleverans eller glutenfritt bröd (fråga oss om övriga allergier).',
+    ],
     infoCards: [
       {
         title: 'Hitta hit',
@@ -199,7 +257,7 @@ export const locations = {
       },
       {
         title: 'Meny',
-        content: ['Gnocchi och sandwiches. Menyn kommer snart.'],
+        content: ['Handgjord gnocchi och grillade mackor.'],
       },
     ],
     assets: locationAssets.cafe,

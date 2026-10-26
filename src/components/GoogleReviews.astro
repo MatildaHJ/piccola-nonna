@@ -188,10 +188,11 @@ const isDevelopment = import.meta.env.DEV;
       section.clientWidth / imageAspectRatio,
     );
     const maximumOffset = renderedImageHeight - section.clientHeight;
-    const parallaxStart = window.innerHeight * 0.2;
+    const parallaxStart = window.innerHeight * 0.35;
+    const scrollDistance = parallaxStart + sectionBounds.height;
     const scrollProgress = Math.min(
       1,
-      Math.max(0, (parallaxStart - sectionBounds.top) / parallaxStart),
+      Math.max(0, (parallaxStart - sectionBounds.top) / scrollDistance),
     );
 
     section.style.setProperty(

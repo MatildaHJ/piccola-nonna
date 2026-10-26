@@ -1,5 +1,6 @@
 ---
 import type { Location } from '../content/locations';
+import { Coffee, Pizza } from '@lucide/astro';
 import SiteNavigation from './SiteNavigation.astro';
 interface Props {
   location?: Location;
@@ -20,32 +21,36 @@ const { location } = Astro.props;
           data-location-nav
           class="transition-opacity"
         >
-          <div
+          <a
+            href={location?.id === 'cafe' ? '/' : '/cafe'}
+            aria-label={location?.id === 'cafe'
+              ? 'Byt till Pizzeria'
+              : 'Byt till Café'}
             data-location-toggle
-            class="relative grid w-42 grid-cols-2 rounded-full bg-canvas/70 p-1 text-[13px]"
+            class="relative grid w-48 grid-cols-2 rounded-full bg-canvas/70 p-1 text-[13px] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
           >
             <span
               aria-hidden="true"
               class=`pointer-events-none absolute inset-y-1 left-1 w-[calc(50%-0.25rem)] rounded-full bg-text/40 transition-transform duration-(--base-duration) ease-(--standard-ease)
               ${location?.id === 'cafe' ? 'translate-x-full' : 'translate-x-0'}`
             ></span>
-            <a
-              href="/"
-              data-location-link
-              aria-current={location?.id === 'pizza' ? 'page' : undefined}
-              class=`relative z-10 rounded-full px-2 py-1 text-center transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary 
-              `
-              >Pizzeria</a
+            <span
+              data-location-option
+              data-current-location={location?.id !== 'cafe'}
+              class="relative z-10 flex items-center justify-center gap-1.5 rounded-full px-2 py-1 transition-colors"
             >
-            <a
-              href="/cafe"
-              data-location-link
-              aria-current={location?.id === 'cafe' ? 'page' : undefined}
-              class=`relative z-10 rounded-full px-2 py-1 text-center transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary 
-              `
-              >Café</a
+              <Pizza size={14} aria-hidden="true" class="shrink-0" />
+              Pizza
+            </span>
+            <span
+              data-location-option
+              data-current-location={location?.id === 'cafe'}
+              class="relative z-10 flex items-center justify-center gap-1.5 rounded-full px-2 py-1 transition-colors"
             >
-          </div>
+              <Coffee size={14} aria-hidden="true" class="shrink-0" />
+              Café
+            </span>
+          </a>
         </nav>
       </div>
     </div>
@@ -59,8 +64,8 @@ const { location } = Astro.props;
       const locationToggle = header.querySelector<HTMLElement>(
         '[data-location-toggle]',
       );
-      const locationLinks = header.querySelectorAll<HTMLAnchorElement>(
-        '[data-location-link]',
+      const locationOptions = header.querySelectorAll<HTMLElement>(
+        '[data-location-option]',
       );
 
       const backgroundTrigger = document.querySelector<HTMLElement>(
@@ -77,14 +82,13 @@ const { location } = Astro.props;
         header.classList.toggle('bg-transparent', !hasReachedMenu);
         locationToggle?.classList.toggle('bg-text/20', hasReachedMenu);
         locationToggle?.classList.toggle('bg-canvas/70', !hasReachedMenu);
-        locationLinks.forEach((link) => {
-          const isCurrentLocation =
-            link.getAttribute('aria-current') === 'page';
-          link.classList.toggle(
+        locationOptions.forEach((option) => {
+          const isCurrentLocation = option.dataset.currentLocation === 'true';
+          option.classList.toggle(
             'text-text',
             hasReachedMenu || isCurrentLocation,
           );
-          link.classList.toggle('text-text/80', !isCurrentLocation);
+          option.classList.toggle('text-text/80', !isCurrentLocation);
         });
       };
 

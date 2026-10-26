@@ -1,6 +1,7 @@
 ---
 import { cafeLocation, pizzaLocation } from '../content/locations';
 import type { Location } from '../content/locations';
+import NeonLogo from './NeonLogo.astro';
 
 interface Props {
   location: Location;
@@ -13,13 +14,11 @@ const { location } = Astro.props;
   <div class="container">
     <div class="grid gap-10 py-10 xl:grid-cols-5 xl:gap-8 xl:py-14">
       <div class="xl:col-span-2">
-        <img
+        <NeonLogo
           src={location.assets.logo.src}
-          alt=""
-          class="h-30 w-30 md:w-40 md:h-40 z-30"
-          aria-hidden="true"
+          class="h-30 w-30 md:w-30 md:h-30 z-30"
         />
-        <p class="mt-4 max-w-sm text-sm leading-6 text-muted">
+        <p class="max-w-sm text-sm leading-6 text-muted mt-6">
           Handgjort med hyperfokus, kärlek och de finaste råvarorna. Varmt
           välkomna in!
         </p>
@@ -35,7 +34,8 @@ const { location } = Astro.props;
         </address>
         <a
           href={pizzaLocation.instagramUrl}
-          class="mt-4 inline-block break-all text-sm text-primary underline underline-offset-4 transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+          class="mt-4 inline-block break-all text-sm text-primary underline underline-offset-4 transition-colors hover:text-white
+          focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
           target="_blank"
           rel="noreferrer">@{pizzaLocation.instagramHandle}</a
         >
@@ -51,31 +51,47 @@ const { location } = Astro.props;
         </address>
         <a
           href={cafeLocation.instagramUrl}
-          class="mt-4 inline-block break-all text-sm text-primary underline underline-offset-4 transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+          class="mt-4 inline-block break-all text-sm text-primary underline underline-offset-4 transition-colors hover:text-white
+          focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
           target="_blank"
           rel="noreferrer">@{cafeLocation.instagramHandle}</a
         >
       </section>
       <section>
         <h2
-          class="text-sm md:text-base font-medium uppercase tracking-[0.16em]"
+          class="text-sm md:text-base font-medium uppercase tracking-[0.16em] mb-4"
         >
-          Kontakt
+          Social
         </h2>
         <ul>
-          <li></li>
+          <li>
+            <a
+              href="mailto:lapiccolanonna@gmail.com"
+              class="text-sm leading-6 transition-colors hover:text-white
+          focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+              >Facebook</a
+            >
+          </li>
+          <li>
+            <a
+              href="mailto:lapiccolanonna@gmail.com"
+              class="text-sm leading-6 transition-colors hover:text-white
+          focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+              >Spotify</a
+            >
+          </li>
         </ul>
-        <p class="mt-4 max-w-sm text-sm leading-6 text-muted">
-          <a
-            href="mailto:lapiccolanonna@gmail.com"
-            class="break-all text-primary underline underline-offset-4 transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
-            >lapiccolanonna@gmail.com</a
-          >
-        </p>
+
+        <a
+          href="mailto:lapiccolanonna@gmail.com"
+          class="mt-4 inline-block text-sm leading-6 break-all text-primary underline underline-offset-4 transition-colors hover:text-white
+          focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+          >lapiccolanonna@gmail.com</a
+        >
       </section>
     </div>
     <div
-      class="flex justify-between items-center py-8 text-muted text-xs border-t border-accent/50 mt-6 md:mt-8"
+      class="flex justify-between items-center py-8 text-muted text-xs border-t border-white/50"
     >
       <p>© 2026 La Piccola Nonna Stockholm. Anno 2019.</p>
       <p class="font-display text-primary tracking-wider">✦✦✦✦✦</p>

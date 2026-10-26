@@ -41,43 +41,51 @@ const mentions = [
 
 <section
   data-press-mentions
-  class="flex h-37.5 flex-col justify-center overflow-hidden bg-primary text-canvas"
+  class="flex my-30 flex-col justify-center overflow-hidden bg-canvas text-text/60 relative isolate"
   aria-labelledby="press-mentions-heading"
 >
   <div class="container flex w-full items-center justify-between">
-    <h2 id="press-mentions-heading" class="sr-only">Omnämnda i</h2>
+    <h2
+      id="press-mentions-heading"
+      class="text-xs font-semibold uppercase tracking-[0.16em] text-primary mb-4"
+    >
+      Uppmärksammade i
+    </h2>
   </div>
-  <div class="press-viewport">
-    <div class="press-track">
-      {
-        [false, true].map((duplicate) => (
-          <ul
-            class="press-group"
-            aria-hidden={duplicate ? 'true' : undefined}
-            inert={duplicate}
-          >
-            {mentions.map((mention) => (
-              <li>
-                <a
-                  href={mention.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  class="flex w-56 flex-col items-start gap-3 rounded-sm p-2 text-center transition-opacity hover:opacity-70 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-canvas"
-                >
-                  <span class="text-xs">{mention.prefix}</span>
-                  <img
-                    src={mention.logo}
-                    alt={mention.brand}
-                    class="h-9 w-auto object-contain brightness-0"
-                    width="160"
-                    height="36"
-                  />
-                </a>
-              </li>
-            ))}
-          </ul>
-        ))
-      }
+  <div class="container relative z-10 w-full">
+    <div class="press-viewport">
+      <div class="press-track">
+        {
+          [false, true].map((duplicate) => (
+            <ul
+              class="press-group"
+              aria-hidden={duplicate ? 'true' : undefined}
+            >
+              {mentions.map((mention) => (
+                <li>
+                  <a
+                    href={mention.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    tabindex={duplicate ? -1 : undefined}
+                    class="press-link flex w-auto flex-col items-start gap-3 rounded-sm p-2 text-center
+                  focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-canvas"
+                  >
+                    <span class="text-xs">{mention.prefix}</span>
+                    <img
+                      src={mention.logo}
+                      alt={mention.brand}
+                      class="h-9 w-auto object-contain brightness-0 invert"
+                      width="160"
+                      height="36"
+                    />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          ))
+        }
+      </div>
     </div>
   </div>
 </section>
@@ -102,6 +110,29 @@ const mentions = [
 </script>
 
 <style>
+  .press-viewport {
+    overflow: hidden;
+    --press-fade-width: clamp(2rem, 6vw, 5rem);
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      black var(--press-fade-width),
+      black calc(100% - var(--press-fade-width)),
+      transparent
+    );
+  }
+
+  .press-link {
+    transition-property: color;
+    transition-duration: var(--base-duration);
+    transition-timing-function: var(--standard-ease);
+  }
+
+  .press-link:hover,
+  .press-link:focus-visible {
+    color: #fff;
+  }
+
   .press-track {
     display: flex;
     width: max-content;
@@ -112,8 +143,7 @@ const mentions = [
     display: flex;
     align-items: center;
     justify-content: space-around;
-    gap: 3rem;
-    min-width: 100vw;
+    gap: 4.5rem;
     padding-inline: 1.5rem;
     flex-shrink: 0;
   }

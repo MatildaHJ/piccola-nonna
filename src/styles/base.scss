@@ -51,7 +51,31 @@ a {
   text-underline-offset: 0.18em;
 }
 
+@property --button-shine-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@keyframes button-border-shine {
+  0% {
+    --button-shine-angle: 0deg;
+    opacity: 0;
+  }
+
+  10%,
+  85% {
+    opacity: 1;
+  }
+
+  100% {
+    --button-shine-angle: 360deg;
+    opacity: 0;
+  }
+}
+
 .button {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -63,9 +87,29 @@ a {
   box-shadow: 0 0 0 rgb(244 68 109 / 0%);
   transition: all $base-duration $standard-ease;
 
-  &:is(:hover, :focus-visible) {
-    box-shadow: $neon-shadow;
-    transform: translateY(-0.125rem);
+  &::after {
+    content: '';
+    position: absolute;
+    inset: -1.5px;
+    border-radius: inherit;
+    padding: 1.5px;
+    background: conic-gradient(
+      from var(--button-shine-angle),
+      transparent 0deg 300deg,
+      rgb(255 255 255 / 35%) 330deg,
+      rgb(255 255 255 / 90%) 352deg,
+      transparent 360deg
+    );
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  &:is(:hover, :focus-visible)::after {
+    animation: button-border-shine 0.8s linear 1;
   }
 
   &__arrow {
@@ -83,10 +127,6 @@ a {
   &--pink {
     border: 1px solid transparent;
     background: $radial-gradient-pink;
-
-    &:is(:hover, :focus-visible) {
-      border-color: white;
-    }
   }
 
   &--transparent {
@@ -101,6 +141,10 @@ a {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .button:is(:hover, :focus-visible)::after {
+    animation: none;
+  }
+
   *,
   *::before,
   *::after {

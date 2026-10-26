@@ -19,7 +19,7 @@ const { location } = Astro.props;
           <h2 class="flex items-center gap-3 font-display text-2xl leading-none">
             <span
               aria-hidden="true"
-              class="size-3 shrink-0 rounded-[3px] bg-accent"
+              class="size-3 shrink-0 rounded-[3px] bg-primary-dark"
             />
             {card.title}
           </h2>
@@ -42,7 +42,7 @@ const { location } = Astro.props;
                               ? 'noreferrer'
                               : undefined
                           }
-                          class="text-primary underline underline-offset-4 transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+                          class="text-white underline underline-offset-4 hover:no-underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
                         >
                           {part.text}
                         </a>
@@ -58,7 +58,7 @@ const { location } = Astro.props;
               href={card.link.href}
               target="_blank"
               rel="noreferrer"
-              class="mt-auto pt-6 text-sm font-medium text-primary transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+              class="mt-auto pt-6 text-sm font-medium text-white underline underline-offset-4 hover:no-underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
             >
               {card.link.label} <span aria-hidden="true">↗</span>
             </a>

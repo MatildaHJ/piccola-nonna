@@ -1,0 +1,72 @@
+---
+interface Props {
+  src: string;
+  class?: string;
+}
+
+const { src, class: className } = Astro.props;
+---
+
+<img
+  src={src}
+  alt=""
+  aria-hidden="true"
+  data-neon-logo
+  class:list={['neon-logo', className]}
+/>
+
+<script>
+  const logos = document.querySelectorAll<HTMLElement>('[data-neon-logo]');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      entry.target.classList.toggle('is-visible', entry.isIntersecting);
+    });
+  });
+
+  logos.forEach((logo) => observer.observe(logo));
+</script>
+
+<style>
+  @media (prefers-reduced-motion: no-preference) {
+    .neon-logo {
+      animation: neon-flicker 12s linear infinite;
+      animation-play-state: paused;
+    }
+
+    .neon-logo.is-visible {
+      animation-play-state: running;
+    }
+
+    @keyframes neon-flicker {
+      0%,
+      16%,
+      18%,
+      19.5%,
+      45%,
+      47%,
+      72%,
+      74%,
+      75.5%,
+      100% {
+        filter: brightness(1) drop-shadow(0 0 2px rgb(249 148 172 / 15%));
+      }
+
+      17%,
+      19%,
+      73%,
+      75% {
+        filter: brightness(0.82) drop-shadow(0 0 1px rgb(249 148 172 / 5%));
+      }
+
+      46% {
+        filter: brightness(0.9) drop-shadow(0 0 1px rgb(249 148 172 / 8%));
+      }
+
+      32%,
+      61%,
+      89% {
+        filter: brightness(1.08) drop-shadow(0 0 4px rgb(249 148 172 / 25%));
+      }
+    }
+  }
+</style>

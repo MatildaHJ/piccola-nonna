@@ -9,6 +9,7 @@ import GoogleReviews from './GoogleReviews.astro';
 import LocationMap from './LocationMap.astro';
 import InstagramSection from './InstagramSection.astro';
 import PressMentions from './PressMentions.astro';
+import About from './About.astro';
 interface Props {
   location: Location;
 }
@@ -28,15 +29,23 @@ const { location } = Astro.props;
       <Menu location={location} />
     </section>
     <LocationInfoCards location={location} />
+    <About {location} />
+
     {
       location.id === 'pizza' && (
         <>
           <GoogleReviews />
-          <PressMentions />
         </>
       )
     }
     <InstagramSection {location} />
+    {
+      location.id === 'pizza' && (
+        <>
+          <PressMentions />
+        </>
+      )
+    }
     <LocationMap {location} />
   </main>
   <SiteFooter {location} />

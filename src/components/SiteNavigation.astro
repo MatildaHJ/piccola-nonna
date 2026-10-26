@@ -16,20 +16,12 @@ const menuId = `site-menu-${location?.id ?? 'landing'}`;
     aria-controls={menuId}
     aria-expanded="false"
     data-menu-toggle
-    class="group relative z-70 h-8 w-8 cursor-pointer rounded-full transition-[background-color,opacity] duration-(--base-duration) ease-(--standard-ease) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary md:h-9 md:w-9"
+    class="group relative z-70 h-8 w-8 cursor-pointer rounded-full transition-[background-color,opacity] duration-(--base-duration) ease-(--standard-ease)
+    focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary md:h-9 md:w-9"
   >
-    <span
-      aria-hidden="true"
-      class="absolute inset-x-0 top-2 h-0.5 bg-current transition-transform duration-(--base-duration) ease-(--standard-ease) group-[.is-open]:translate-y-2 group-[.is-open]:rotate-45 md:group-[.is-open]:translate-y-3"
-    ></span>
-    <span
-      aria-hidden="true"
-      class="absolute inset-x-0 top-1/2 h-0.5 -translate-y-1/2 bg-current transition-opacity duration-(--base-duration) ease-(--standard-ease) group-[.is-open]:opacity-0"
-    ></span>
-    <span
-      aria-hidden="true"
-      class="absolute inset-x-0 bottom-2 h-0.5 bg-current transition-transform duration-(--base-duration) ease-(--standard-ease) group-[.is-open]:-translate-y-2 group-[.is-open]:-rotate-45 md:group-[.is-open]:-translate-y-3"
-    ></span>
+    <span aria-hidden="true" class="absolute h-0.5 bg-current"></span>
+    <span aria-hidden="true" class="absolute h-0.5 bg-current"></span>
+    <span aria-hidden="true" class="absolute h-0.5 bg-current"></span>
   </button>
 
   <nav
@@ -43,7 +35,7 @@ const menuId = `site-menu-${location?.id ?? 'landing'}`;
       type="button"
       aria-label="Stäng navigeringsmeny"
       data-menu-close
-      class="absolute right-5 top-5 h-8 w-8 cursor-pointer rounded-full opacity-0 transition-[background-color,opacity] duration-200 delay-200 ease-out hover:bg-text/15 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary group-[.is-open]:opacity-100 sm:right-8 sm:top-8"
+      class="absolute right-5 top-5 h-8 w-8 cursor-pointer rounded-full opacity-0 transition-opacity duration-200 delay-200 ease-out focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary group-[.is-open]:opacity-100 sm:right-8 sm:top-8"
     >
       <span
         aria-hidden="true"
@@ -140,3 +132,42 @@ const menuId = `site-menu-${location?.id ?? 'landing'}`;
       });
     });
 </script>
+
+<style lang="scss">
+  [data-menu-toggle] > span,
+  [data-menu-close] > span {
+    transition-property: transform, opacity, background-color;
+    transition-duration: var(--base-duration);
+    transition-timing-function: var(--standard-ease);
+  }
+
+  [data-menu-toggle] > span {
+    top: 50%;
+    left: 0;
+    width: 100%;
+    transform: translateY(-50%);
+    transition-property: width, background-color;
+  }
+
+  [data-menu-toggle] > span:first-child {
+    transform: translateY(calc(-50% - 0.5rem));
+  }
+
+  [data-menu-toggle] > span:nth-child(2) {
+    width: 80%;
+  }
+
+  [data-menu-toggle] > span:last-child {
+    width: 60%;
+    transform: translateY(calc(-50% + 0.5rem));
+  }
+
+  [data-menu-toggle]:is(:hover, :focus-visible) > span {
+    width: 100%;
+  }
+
+  [data-menu-toggle]:is(:hover, :focus-visible) > span,
+  [data-menu-close]:is(:hover, :focus-visible) > span {
+    background-color: var(--color-primary-light);
+  }
+</style>
